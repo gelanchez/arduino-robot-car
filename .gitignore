@@ -1,5 +1,11 @@
+# KDE
 .directory
 
+# Personal files
 TODO.txt
 
+# VSCode configuration files
+.vscode/
+
+# Compiled files
 build/
