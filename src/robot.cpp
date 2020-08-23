@@ -2,8 +2,8 @@
  * @file robot.cpp
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for controling the robot.
- * @version 1.0.0
- * @date 2020-08-22
+ * @version 1.0.1
+ * @date 2020-08-23
  * @copyright GPL-3.0
  */
 
@@ -22,14 +22,6 @@ m_previousAngle{ 90 }, m_interval{ Constants::updateInterval },
 m_sonarMap{ Constants::maxDistance, Constants::maxDistance, Constants::maxDistance, Constants::maxDistance, Constants::maxDistance }
 {
     m_lastUpdate = millis();
-    // m_motors = Motors();
-    // m_servo = MyServo(); // do NOT attach the pin here but in begin
-    // m_ultrasonic = Ultrasonic();
-    // m_lineTracking = LineTraking();
-    // m_sonarMap{Constants::maxDistance, Constants::maxDistance, Constants::maxDistance, Constants::maxDistance, Constants::maxDistance};
-    // m_state = RobotModeState::START; // Initial state of the RobotMode
-    // m_previousAngle = 90; // Previous angle of the servo, initial value
-    // m_interval = Constants::defaultInterval;
 }
 
 RobotControl::~RobotControl()
@@ -298,7 +290,7 @@ void RobotControl::lineTrackingMode()
             m_motors.stop();
         }     
         break;
-    case RobotModeState::ROTATE:  // Totate 90 deg     
+    case RobotModeState::ROTATE:  // Rotate 90 deg     
         if ((millis() - m_lastUpdate) >= Constants::rotate90Time)
         {
             m_motors.stop();
