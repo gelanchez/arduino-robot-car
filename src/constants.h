@@ -2,8 +2,8 @@
  * @file constants.h
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Constants used along the program
- * @version 1.0.0
- * @date 2020-08-22
+ * @version 1.0.1
+ * @date 2020-08-28
  * @copyright GPL-3.0
  */
 
@@ -14,6 +14,8 @@
 
 namespace Constants
 {
+    const long serialBaud(9600);  // bps for Serial.begin
+
     // MOTORS
     // Right motors pins
     const uint8_t motorsEnA(6);
