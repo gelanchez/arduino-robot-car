@@ -2,7 +2,7 @@
  * @file main.ino
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Main program.
- * @version 1.1.0
+ * @version 1.0.2
  * @date 2020-08-29
  * @copyright GPL-3.0
  */
