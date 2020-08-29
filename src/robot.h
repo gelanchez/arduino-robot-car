@@ -2,8 +2,8 @@
  * @file robot.h
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for controling the robot.
- * @version 1.0.0
- * @date 2020-08-22
+ * @version 1.1.0
+ * @date 2020-08-29
  * @copyright GPL-3.0
  */
 #ifndef ROBOT_H
@@ -35,7 +35,6 @@ class RobotControl
         ~RobotControl();
         void restartState();
         void begin();
-        String getBTData();
 
         void remoteControlMode(RemoteOrder order);
         void IRControlMode();

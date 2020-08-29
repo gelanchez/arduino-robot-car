@@ -2,8 +2,8 @@
  * @file robot.cpp
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for controling the robot.
- * @version 1.0.2
- * @date 2020-08-28
+ * @version 1.1.0
+ * @date 2020-08-29
  * @copyright GPL-3.0
  */
 
@@ -49,20 +49,6 @@ void RobotControl::begin()
 {
     Serial.begin(Constants::serialBaud);  // Can not be inside a constructor
     m_servo.begin();  // Servo initialization can not be done inside Robot constructor
-}
-
-String RobotControl::getBTData()
-{
-    String dataBT = "";
-    while ((Serial.available() > 0) && (dataBT.endsWith("}") == false))
-    {
-        dataBT += static_cast<char>(Serial.read());
-        delay(3);
-    }
-    if ((dataBT.length() > 0) && dataBT.endsWith("}"))
-        return dataBT;
-    else
-        return "";
 }
 
 void RobotControl::remoteControlMode(RemoteOrder order)

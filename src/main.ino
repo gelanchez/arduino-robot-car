@@ -2,17 +2,18 @@
  * @file main.ino
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Main program.
- * @version 1.0.0
- * @date 2020-08-22
+ * @version 1.0.1
+ * @date 2020-08-29
  * @copyright GPL-3.0
  */
 
+#include "BTprocess.h"
 #include "constants.h"
 #include "robot.h"
 #include <ArduinoJson.h>
 
 RobotControl Robot = RobotControl();  // Initialization of the RobotControl object
-String dataBT = "";
+BTprocess BTproc = BTprocess();  // Initialization of the BT processor object
 
 /**
  * @brief Structure storing the JSON data received, which keeps the mode of the robot.
@@ -38,7 +39,7 @@ StaticJsonDocument<150> elegooDoc;
  * {"N":3,"D1":2} obstacle avoidance
  * {"N":2,"D1":1...5} joystick
  */
-void decodeElegooJSON()
+void decodeElegooJSON(const String &dataBT)
 {
     DeserializationError error = deserializeJson(elegooDoc, dataBT);
     if (!error)
@@ -123,9 +124,9 @@ void setup()
 
 void loop()
 {
-    dataBT = Robot.getBTData();
+    String dataBT = BTproc.getBTData();
     if (dataBT != "")
-        decodeElegooJSON();
+        decodeElegooJSON(dataBT);
 
     switch (data.mode)
     {
