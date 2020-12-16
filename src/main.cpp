@@ -15,7 +15,7 @@ RobotControl Robot = RobotControl();  // Initialization of the RobotControl obje
 BTprocess BTproc = BTprocess();  // Initialization of the BT processor object
 RobotMode mode = RobotMode::REMOTECONTROL;  // Default mode
 
-void setup() 
+void setup()
 {
     Robot.begin();
     delay(500);  // To make Serial work
@@ -35,18 +35,18 @@ void loop()
             mode = RobotMode::REMOTECONTROL;
             Robot.remoteControlMode(static_cast<RemoteOrder>(BTproc.getParameter1()));
             break;
-        
+
         case RobotMode::IRCONTROL:
             mode = RobotMode::IRCONTROL;
             Robot.m_IRreceiver.enable();
             Robot.IRControlMode();
             break;
-        
+
         case RobotMode::OBSTACLEAVOIDANCE:
             mode = RobotMode::OBSTACLEAVOIDANCE;
             Robot.obstacleAvoidanceMode();
             break;
-        
+
         case RobotMode::LINETRACKING:
             mode = RobotMode::LINETRACKING;
             Robot.lineTrackingMode();
@@ -57,11 +57,11 @@ void loop()
             mode = RobotMode::REMOTECONTROL;
             Robot.restartState();
             break;
-        
+
         case RobotMode::CUSTOM:
             Robot.customMode();
             break;
-        
+
         default:
             break;
     }
