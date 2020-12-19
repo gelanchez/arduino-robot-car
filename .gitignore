@@ -9,3 +9,6 @@ TODO.md
 
 # Compiled files
 build/
+
+# PlatformIO
+.pio

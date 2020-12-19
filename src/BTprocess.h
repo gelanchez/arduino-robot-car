@@ -21,7 +21,7 @@ class BTprocess
         RobotMode m_mode;
         uint8_t m_parameter1;
         uint8_t m_parameter2;
-    
+
     public:
         BTprocess();
         ~BTprocess();

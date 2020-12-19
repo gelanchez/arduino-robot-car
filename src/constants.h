@@ -28,7 +28,7 @@ namespace Constants
     // Motors min speed (measured)
     const uint8_t crankSpeed(140);  // Around 120 @ full battery
     const uint8_t idleSpeed(90);
-    
+
     // DEFAULT speeds
     const uint8_t moveSpeed(170);
     const uint8_t rotateSpeed(150);
@@ -108,14 +108,14 @@ enum class RemoteOrder
 /**
  * @brief States for the different Robotmode
  */
-enum class RobotModeState 
+enum class RobotModeState
 {
     START,
     FORWARD,
     OBSTACLE,
     ROTATE,
     BLOCKED,
-    LINELOST,  // Only used in linetracking   
+    LINELOST,  // Only used in linetracking
 };
 
 #endif

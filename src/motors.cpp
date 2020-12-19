@@ -60,7 +60,7 @@ void Motors::move(int16_t leftSpeed, int16_t rightSpeed)
     // Return if no speed change
     if ((m_leftSpeed == leftSpeed) && (m_rightSpeed == rightSpeed))
         return;
-    
+
     // Limit values
     leftSpeed = constrain(leftSpeed, -255, 255);
     rightSpeed = constrain(rightSpeed, -255, 255);
@@ -87,7 +87,7 @@ void Motors::move(int16_t leftSpeed, int16_t rightSpeed)
         digitalWrite(Constants::motorsIn4, HIGH);
         analogWrite(Constants::motorsEnB, m_leftSpeed);
     }
-    
+
     if (m_rightSpeed<0)
     {
         digitalWrite(Constants::motorsIn1, LOW);

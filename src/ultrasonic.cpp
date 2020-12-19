@@ -37,7 +37,7 @@ uint16_t Ultrasonic::getDistance(uint16_t maxDistance)
     // noInterrupts();
     unsigned long duration = pulseIn(Constants::echoPin, HIGH, maxDistance * 2 / Constants::soundSpeed);
     // interrupts();
-    
+
     if (duration == 0)
         return maxDistance;
 

@@ -17,9 +17,9 @@
 #include <Arduino.h>
 
 RobotControl::RobotControl()  // Member initializer lists
-: m_motors{}, m_servo{}, m_ultrasonic{}, m_IRreceiver{}, m_lineTracking{}, m_state{ RobotModeState::START },
-m_previousAngle{ 90 }, m_interval{ Constants::updateInterval },
-m_sonarMap{ Constants::maxDistance, Constants::maxDistance, Constants::maxDistance, Constants::maxDistance, Constants::maxDistance }
+: m_motors{}, m_servo{}, m_ultrasonic{}, m_lineTracking{},
+m_sonarMap{ Constants::maxDistance, Constants::maxDistance, Constants::maxDistance, Constants::maxDistance, Constants::maxDistance },
+m_state{ RobotModeState::START }, m_previousAngle{ 90 }, m_interval{ Constants::updateInterval }, m_IRreceiver{}
 {
     m_lastUpdate = millis();
 }
@@ -176,21 +176,21 @@ void RobotControl::obstacleAvoidanceMode()
                 else
                     m_state = RobotModeState::ROTATE;
             }
-            break;  
+            break;
         case RobotModeState::ROTATE:
             (m_sonarMap[0] < m_sonarMap[4]) ? m_motors.rotateLeft() : m_motors.rotateRight(); // Condicional operator
             m_interval = Constants::rotate90Time;  // Rotate 90
             m_state = RobotModeState::START;
             m_sonarMap[1] = Constants::maxDistance;  // Reset values
             m_sonarMap[3] = Constants::maxDistance;  // Reset values
-            break; 
+            break;
         case RobotModeState::BLOCKED:
             (m_sonarMap[0] < m_sonarMap[4]) ? m_motors.rotateLeft() : m_motors.rotateRight(); // Condicional operator
             m_interval = Constants::rotate180Time;  // Rotate 180
             m_state = RobotModeState::START;
             m_sonarMap[1] = Constants::maxDistance;  // Reset values
             m_sonarMap[3] = Constants::maxDistance;  // Reset values
-            break;                
+            break;
         default:
             break;
         }
@@ -237,7 +237,7 @@ void RobotControl::lineTrackingMode()
         else if (m_lineTracking.midLine())
             m_motors.forward(calculateSpeed(m_sonarMap[2], Constants::minDetourDistance, Constants::maxDistanceLineTracking, Constants::moveSpeed));
         else  // No line detected
-        {   
+        {
             // Wait to avoid line missing in between sensors
             unsigned long timeNoLine = millis();
             while ((millis() - timeNoLine) < Constants::timeUntilLost)
@@ -270,12 +270,12 @@ void RobotControl::lineTrackingMode()
             m_motors.stop();
             m_servo.write(90);  // Look front
             m_motors.rotateLeft();
-            while (!m_lineTracking.midLine());  // Keep rotating until you find the line         
+            while (!m_lineTracking.midLine());  // Keep rotating until you find the line
             m_state = RobotModeState::START;
             m_motors.stop();
-        }     
+        }
         break;
-    case RobotModeState::ROTATE:  // Rotate 90 deg     
+    case RobotModeState::ROTATE:  // Rotate 90 deg
         if ((millis() - m_lastUpdate) >= Constants::rotate90Time)
         {
             m_motors.stop();
@@ -284,6 +284,7 @@ void RobotControl::lineTrackingMode()
         }
         break;
     case RobotModeState::LINELOST:
+    {
         m_motors.rotateRight();  // Rotate 180 and find the line
         delay(Constants::rotate180Time);
         m_motors.forward();  // Try and find the line backwards
@@ -298,6 +299,7 @@ void RobotControl::lineTrackingMode()
         m_motors.stop();
         m_state = RobotModeState::START;
         break;
+    }
     case RobotModeState::BLOCKED:
         break;
     default:
@@ -317,7 +319,7 @@ void RobotControl::parkMode()
         m_servo.write(0);
     else
         m_servo.write(180);  // Park on the left
-    
+
     delay(2 * Constants::updateInterval);  // Enough time to move the servo
 
     // Pass the 1st object
@@ -368,7 +370,7 @@ void RobotControl::customMode()
     else if (m_sonarMap[0] > Constants::minDetourDistance )  // Go closer
         m_motors.move(calculateSpeed(m_sonarMap[0], 0, 100, Constants::moveSpeed), 0);
     else  // Go further
-        m_motors.move(0, Constants::moveSpeed);        
+        m_motors.move(0, Constants::moveSpeed);
 }
 
 uint8_t RobotControl::mapAngle(uint8_t angle)
@@ -380,6 +382,7 @@ uint8_t RobotControl::mapAngle(uint8_t angle)
         case 90: return 2;
         case 150: return 3;
         case 180: return 4;
+        default: return 0;
     }
 }
 
@@ -398,8 +401,8 @@ void RobotControl::moveServoSequence()  // Sequences: {90, 150, 90, 30} {90, 180
             m_servo.write(0);
         else if (m_previousAngle == 0)
             m_servo.write(180);
-    }    
-    m_previousAngle = currentAngle;    
+    }
+    m_previousAngle = currentAngle;
 }
 
 uint8_t RobotControl::calculateSpeed(uint16_t distance, uint16_t minDistance, uint16_t maxDistance, uint8_t minSpeed)
