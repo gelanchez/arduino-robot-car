@@ -42,7 +42,7 @@ class RobotControl
         void lineTrackingMode();
         void parkMode();
         void customMode();
-    
+
     protected:
         void speedControl();
         uint8_t mapAngle(uint8_t angle);

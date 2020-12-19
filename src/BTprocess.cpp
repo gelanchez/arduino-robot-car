@@ -72,7 +72,7 @@ void BTprocess::decodeElegooJSON()
                     case 2:
                         if (m_mode != RobotMode::OBSTACLEAVOIDANCE)
                             m_mode = RobotMode::OBSTACLEAVOIDANCE;
-                        return;                   
+                        return;
                     default:
                         return;
                 }
@@ -81,7 +81,7 @@ void BTprocess::decodeElegooJSON()
                     m_mode = RobotMode::IRCONTROL;
                 else
                     m_mode = RobotMode::REMOTECONTROL;
-                return;        
+                return;
             case 100:  // parkMode activation
                 m_mode = RobotMode::PARK;
                 return;

@@ -12,14 +12,14 @@ Some extra functionalities have been added in the software compared to the offic
 :smiley: Have fun! :robot: :car:
 
 ## Requirements
-Apart from the standard Arduino libraries, some other ones must be installed:
+Apart from the standard Arduino libraries, some other ones must be installed (these are automatic if you use the included platformio.ini in PlatformIO):
 - [ArduinoJson](https://arduinojson.org)
 - [IRRemote](https://github.com/z3t0/Arduino-IRremote)
 - [Servo](https://www.arduino.cc/reference/en/libraries/servo/)
 
 ## Installation
-1. Install the required libraries.
-2. Download the repository and flash the Arduino. For VSCode, modify the includePath to use the downloaded libraries; if using the Arduino IDE, change the name of the src folder to something appropriate.
+1. Install the required libraries (Arduino IDE only).
+2. Download the repository and flash the Arduino. If using the Arduino IDE, consider changing the name of the src folder and src.ino to something appropriate.
 
 ## Usage
 The oficial "Elegoo Ble Tool" application for Android / iPhone / iPad must be downloaded to interact with the robot. Nevertheless, changing the initial robot mode in the code will allow you to use it without the app.

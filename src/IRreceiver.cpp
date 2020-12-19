@@ -10,7 +10,7 @@
 #include "constants.h"
 #include "IRreceiver.h"
 
-IRreceiver::IRreceiver(): m_irrecv{ Constants::IRPin }, m_isEnabled{ false }, 
+IRreceiver::IRreceiver(): m_irrecv{ Constants::IRPin }, m_isEnabled{ false },
 m_previousKey{ 0xFFFFFFFF }  // Member initializer lists; it can't go inside the constructor
 {
 }
@@ -40,7 +40,7 @@ RemoteOrder IRreceiver::decodeIR()
             pressedKey = m_previousKey;
         else
             m_previousKey = pressedKey;  // Update previous key to current key
-        
+
         switch (pressedKey)
         {
             case Constants::okKey:
@@ -54,8 +54,8 @@ RemoteOrder IRreceiver::decodeIR()
             case Constants::rightKey:
                 return RemoteOrder::ROTATERIGHT;
             default:
-                return RemoteOrder::UNKNOWN;                
-        }        
+                return RemoteOrder::UNKNOWN;
+        }
     }
     return RemoteOrder::UNKNOWN;
 }
