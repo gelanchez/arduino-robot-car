@@ -38,7 +38,6 @@ void loop()
 
     case RobotMode::IRCONTROL:
         mode = RobotMode::IRCONTROL;
-        Robot.m_infrared.enable();
         Robot.IRControlMode();
         break;
 

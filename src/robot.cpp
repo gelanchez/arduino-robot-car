@@ -49,6 +49,7 @@ void RobotControl::begin()
 {
     Serial.begin(Constants::serialBaud); // Can not be inside a constructor
     m_servo.begin();                     // Servo initialization can not be done inside Robot constructor
+    m_infrared.begin();                  // Infrared initialization
 }
 
 void RobotControl::remoteControlMode(RemoteOrder order)

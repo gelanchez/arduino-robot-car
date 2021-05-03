@@ -9,9 +9,9 @@
 
 #include "constants.h"
 #include "infrared.h"
+#include <IRremote.h>
 
-Infrared::Infrared() : m_irrecv{Constants::IRPin}, m_isEnabled{false},
-                       m_previousKey{0xFFFFFFFF} // Member initializer lists; it can't go inside the constructor
+Infrared::Infrared() : m_previousKey{0xFFFFFFFF}
 {
 }
 
@@ -19,22 +19,17 @@ Infrared::~Infrared()
 {
 }
 
-void Infrared::enable()
+void Infrared::begin()
 {
-    if (!m_isEnabled)
-    {
-        m_irrecv.enableIRIn();
-        m_irrecv.blink13(false); // Disable blinking the LED 13 during reception
-        m_isEnabled = true;
-    }
+    IrReceiver.begin(Constants::IRPin, DISABLE_LED_FEEDBACK);
 }
 
 RemoteOrder Infrared::decodeIR()
 {
-    if (m_irrecv.decode(&m_results))
+    if (IrReceiver.decode())
     {
-        unsigned long pressedKey = m_results.value;
-        m_irrecv.resume();
+        unsigned long pressedKey = IrReceiver.decodedIRData.decodedRawData;
+        IrReceiver.resume();
 
         if (pressedKey == 0xFFFFFFFF) // Repeat previous key
             pressedKey = m_previousKey;

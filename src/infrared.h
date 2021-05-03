@@ -17,20 +17,16 @@
 #endif
 
 #include "constants.h"
-#include <IRremote.h>
 
 class Infrared
 {
 private:
-    IRrecv m_irrecv; // Receiver object
-    bool m_isEnabled;
-    decode_results m_results;    // Struct to store the received information
     unsigned long m_previousKey; // Store previous order for repeating key
 
 public:
     Infrared();
     ~Infrared();
-    void enable();
+    void begin();
     RemoteOrder decodeIR();
 };
 
