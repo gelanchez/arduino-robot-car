@@ -1,7 +1,7 @@
 /**
  * @file linetracking.cpp
  * @author José Ángel Sánchez (https://github.com/gelanchez)
- * @brief Library to handle the linketracking sensors.
+ * @brief Library to handle the linetracking IR sensors.
  * @version 1.0.0
  * @date 2020-08-22
  * @copyright GPL-3.0

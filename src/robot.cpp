@@ -39,7 +39,7 @@ void RobotControl::restartState()
     m_state = RobotModeState::START;
     m_previousAngle = 90;
     m_interval = Constants::updateInterval;
-    for (int i = 0; i < 5; i++)
+    for (int i{0}; i < 5; ++i)
     {
         m_sonarMap[i] = Constants::maxDistance; // Default values
     }
@@ -311,7 +311,7 @@ void RobotControl::lineTrackingMode()
 
 void RobotControl::parkMode()
 {
-    for (int i = 0; i <= 1; i++)
+    for (int i{0}; i <= 1; ++i)
     {
         m_servo.write(i * 180);
         delay(2 * Constants::updateInterval);

@@ -10,7 +10,7 @@
 #include "constants.h"
 #include "motors.h"
 
-Motors::Motors() : m_leftSpeed(0), m_rightSpeed(0)  // Member initializer lists
+Motors::Motors() : m_leftSpeed{0}, m_rightSpeed{0}  // Member initializer lists
 {
     // Pins used for motors
     pinMode(Constants::motorsEnA, OUTPUT);

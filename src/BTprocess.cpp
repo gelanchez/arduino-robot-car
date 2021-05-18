@@ -11,8 +11,9 @@
 #include "BTprocess.h"
 #include "constants.h"
 
-BTprocess::BTprocess(): m_dataBT { "" }, m_mode { RobotMode::REMOTECONTROL },  // Default mode
-m_parameter1 { 0 }, m_parameter2 { 0 }
+BTprocess::BTprocess()
+    : m_dataBT{""}, m_mode{RobotMode::REMOTECONTROL}, // Default mode
+      m_parameter1{0}, m_parameter2{0}
 {
 }
 
@@ -23,10 +24,10 @@ BTprocess::~BTprocess()
 /**
  * @brief Decode Elegoo JSON object, setting the struct data.
  * Modes in bluetooth (Elegoo specifications):
- * {"N":5} square down bluetoothFollowing
- * {"N":3,"D1":1} line tracking
- * {"N":3,"D1":2} obstacle avoidance
- * {"N":2,"D1":1...5} joystick
+ * {"N":5} square down bluetoothFollowing.
+ * {"N":3,"D1":1} line tracking.
+ * {"N":3,"D1":2} obstacle avoidance.
+ * {"N":2,"D1":1...5} joystick.
  */
 void BTprocess::decodeElegooJSON()
 {
@@ -35,59 +36,59 @@ void BTprocess::decodeElegooJSON()
     {
         uint8_t N = m_elegooDoc["N"];
         uint8_t D1;
-        switch (N)  // See Elegoo specifications
+        switch (N) // See Elegoo specifications
         {
-            case 2:  // remoteControlMode
-                m_mode = RobotMode::REMOTECONTROL;
-                D1 = m_elegooDoc["D1"];
-                switch (D1)
-                {
-                    case 1:
-                        m_parameter1 = static_cast<uint8_t>(RemoteOrder::ROTATELEFT);
-                        return;
-                    case 2:
-                        m_parameter1 = static_cast<uint8_t>(RemoteOrder::ROTATERIGHT);
-                        return;
-                    case 3:
-                        m_parameter1 = static_cast<uint8_t>(RemoteOrder::FORWARD);
-                        return;
-                    case 4:
-                        m_parameter1 = static_cast<uint8_t>(RemoteOrder::BACKWARD);
-                        return;
-                    case 5:
-                        m_parameter1 = static_cast<uint8_t>(RemoteOrder::STOP);
-                        return;
-                    default:
-                        m_parameter1 = static_cast<uint8_t>(RemoteOrder::UNKNOWN);
-                        return;
-                }
-            case 3:  // lineTrackingMode or obstacleAvoidanceMode
-                D1 = m_elegooDoc["D1"];
-                switch (D1)
-                    {
-                    case 1:
-                        if (m_mode != RobotMode::LINETRACKING)
-                            m_mode = RobotMode::LINETRACKING;
-                        return;
-                    case 2:
-                        if (m_mode != RobotMode::OBSTACLEAVOIDANCE)
-                            m_mode = RobotMode::OBSTACLEAVOIDANCE;
-                        return;
-                    default:
-                        return;
-                }
-            case 5:  // IRControlMode mode activation or deactivation (deactivate other modes)
-                if (m_mode == RobotMode::REMOTECONTROL)
-                    m_mode = RobotMode::IRCONTROL;
-                else
-                    m_mode = RobotMode::REMOTECONTROL;
+        case 2: // remoteControlMode
+            m_mode = RobotMode::REMOTECONTROL;
+            D1 = m_elegooDoc["D1"];
+            switch (D1)
+            {
+            case 1:
+                m_parameter1 = static_cast<uint8_t>(RemoteOrder::ROTATELEFT);
                 return;
-            case 100:  // parkMode activation
-                m_mode = RobotMode::PARK;
+            case 2:
+                m_parameter1 = static_cast<uint8_t>(RemoteOrder::ROTATERIGHT);
+                return;
+            case 3:
+                m_parameter1 = static_cast<uint8_t>(RemoteOrder::FORWARD);
+                return;
+            case 4:
+                m_parameter1 = static_cast<uint8_t>(RemoteOrder::BACKWARD);
+                return;
+            case 5:
+                m_parameter1 = static_cast<uint8_t>(RemoteOrder::STOP);
                 return;
             default:
-                m_mode = RobotMode::REMOTECONTROL;
+                m_parameter1 = static_cast<uint8_t>(RemoteOrder::UNKNOWN);
                 return;
+            }
+        case 3: // lineTrackingMode or obstacleAvoidanceMode
+            D1 = m_elegooDoc["D1"];
+            switch (D1)
+            {
+            case 1:
+                if (m_mode != RobotMode::LINETRACKING)
+                    m_mode = RobotMode::LINETRACKING;
+                return;
+            case 2:
+                if (m_mode != RobotMode::OBSTACLEAVOIDANCE)
+                    m_mode = RobotMode::OBSTACLEAVOIDANCE;
+                return;
+            default:
+                return;
+            }
+        case 5: // IRControlMode mode activation or deactivation (deactivate other modes)
+            if (m_mode == RobotMode::REMOTECONTROL)
+                m_mode = RobotMode::IRCONTROL;
+            else
+                m_mode = RobotMode::REMOTECONTROL;
+            return;
+        case 100: // parkMode activation
+            m_mode = RobotMode::PARK;
+            return;
+        default:
+            m_mode = RobotMode::REMOTECONTROL;
+            return;
         }
     }
 }
