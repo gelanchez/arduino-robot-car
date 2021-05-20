@@ -39,7 +39,7 @@ void RobotControl::restartState()
     m_state = RobotModeState::START;
     m_previousAngle = 90;
     m_interval = Constants::updateInterval;
-    for (int i{0}; i < 5; ++i)
+    for (size_t i{0}; i < 5; ++i)
     {
         m_sonarMap[i] = Constants::maxDistance; // Default values
     }
