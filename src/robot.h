@@ -2,8 +2,8 @@
  * @file robot.h
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for controling the robot.
- * @version 1.1.0
- * @date 2020-08-29
+ * @version 1.1.1
+ * @date 2021-09-25
  * @copyright GPL-3.0
  */
 #ifndef ROBOT_H
@@ -23,11 +23,11 @@ private:
     MyServo m_servo;
     Ultrasonic m_ultrasonic;
     LineTracking m_lineTracking;
-    uint16_t m_sonarMap[5];
-    RobotModeState m_state;  // State of the RobotMode
-    uint8_t m_previousAngle; // Previous angle of the servo
+    unsigned short m_sonarMap[5];
+    RobotModeState m_state;        // State of the RobotMode
+    unsigned char m_previousAngle; // Previous angle of the servo
     unsigned long m_lastUpdate;
-    uint16_t m_interval;
+    unsigned short m_interval;
 
 public:
     Infrared m_infrared; // Member variable as public to enable from main
@@ -45,9 +45,9 @@ public:
 
 protected:
     void speedControl();
-    uint8_t mapAngle(uint8_t angle);
+    unsigned char mapAngle(unsigned char angle);
     void moveServoSequence();
-    uint8_t calculateSpeed(uint16_t distance, uint16_t minDistance = Constants::minDistance, uint16_t maxDistance = Constants::maxDistance, uint8_t minSpeed = Constants::crankSpeed);
+    unsigned char calculateSpeed(unsigned short distance, unsigned short minDistance = Constants::minDistance, unsigned short maxDistance = Constants::maxDistance, unsigned char minSpeed = Constants::crankSpeed);
 };
 
 #endif

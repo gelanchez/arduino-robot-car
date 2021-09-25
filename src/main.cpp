@@ -2,8 +2,8 @@
  * @file main.ino
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Main program.
- * @version 1.1.0
- * @date 2020-08-30
+ * @version 1.1.1
+ * @date 2021-09-25
  * @copyright GPL-3.0
  */
 
@@ -18,7 +18,7 @@ RobotMode mode = RobotMode::REMOTECONTROL; // Default mode
 void setup()
 {
     Robot.begin();
-    delay(500); // To make Serial work
+    delay(Constants::serialDelay); // To make Serial work
 }
 
 void loop()

@@ -2,8 +2,8 @@
  * @file robot.cpp
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for controling the robot.
- * @version 1.1.0
- * @date 2020-08-29
+ * @version 1.1.1
+ * @date 2021-09-25
  * @copyright GPL-3.0
  */
 
@@ -375,7 +375,7 @@ void RobotControl::customMode()
         m_motors.move(0, Constants::moveSpeed);
 }
 
-uint8_t RobotControl::mapAngle(uint8_t angle)
+unsigned char RobotControl::mapAngle(unsigned char angle)
 {
     switch (angle)
     {
@@ -396,7 +396,7 @@ uint8_t RobotControl::mapAngle(uint8_t angle)
 
 void RobotControl::moveServoSequence() // Sequences: {90, 150, 90, 30} {90, 180, 90, 0}
 {
-    uint8_t currentAngle = m_servo.read();
+    unsigned char currentAngle = m_servo.read();
     if (currentAngle != 90)
         m_servo.write(90);
     else
@@ -413,7 +413,7 @@ void RobotControl::moveServoSequence() // Sequences: {90, 150, 90, 30} {90, 180,
     m_previousAngle = currentAngle;
 }
 
-uint8_t RobotControl::calculateSpeed(uint16_t distance, uint16_t minDistance, uint16_t maxDistance, uint8_t minSpeed)
+unsigned char RobotControl::calculateSpeed(unsigned short distance, unsigned short minDistance, unsigned short maxDistance, unsigned char minSpeed)
 {
-    return minSpeed + static_cast<uint8_t>((distance - minDistance) * (255 - minSpeed) / (maxDistance - minDistance));
+    return minSpeed + static_cast<unsigned char>((distance - minDistance) * (255 - minSpeed) / (maxDistance - minDistance));
 }

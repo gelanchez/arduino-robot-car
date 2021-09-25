@@ -2,8 +2,8 @@
  * @file linetracking.cpp
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library to handle the linetracking IR sensors.
- * @version 1.0.0
- * @date 2020-08-22
+ * @version 1.0.1
+ * @date 2021-09-25
  * @copyright GPL-3.0
  */
 
@@ -12,9 +12,9 @@
 
 LineTracking::LineTracking()
 {
-    pinMode(Constants::ltLeftPin, INPUT);
-    pinMode(Constants::ltMidPin, INPUT);
-    pinMode(Constants::ltRightPin, INPUT);
+    pinMode(Pins::ltLeftPin, INPUT);
+    pinMode(Pins::ltMidPin, INPUT);
+    pinMode(Pins::ltRightPin, INPUT);
 }
 
 LineTracking::~LineTracking()
@@ -23,17 +23,17 @@ LineTracking::~LineTracking()
 
 bool LineTracking::leftLine()
 {
-    return !digitalRead(Constants::ltLeftPin);
+    return !digitalRead(Pins::ltLeftPin);
 }
 
 bool LineTracking::midLine()
 {
-    return !digitalRead(Constants::ltMidPin);
+    return !digitalRead(Pins::ltMidPin);
 }
 
 bool LineTracking::rightLine()
 {
-    return !digitalRead(Constants::ltRightPin);
+    return !digitalRead(Pins::ltRightPin);
 }
 
 bool LineTracking::anyLine()

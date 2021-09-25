@@ -2,8 +2,8 @@
  * @file motors.h
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for dealing with motors.
- * @version 1.0.0
- * @date 2020-08-22
+ * @version 1.0.1
+ * @date 2021-09-25
  * @copyright GPL-3.0
  */
 
@@ -15,24 +15,24 @@
 
 class Motors
 {
-    private:
-        int16_t m_leftSpeed, m_rightSpeed;
+private:
+    short m_leftSpeed, m_rightSpeed;
 
-    public:
-        Motors();
-        ~Motors();
-        int16_t getLeftSpeed();
-        int16_t getRightSpeed();
-        void off();
-        void stop();
-        void move(int16_t leftSpeed, int16_t rightSpeed);
-        void forward(uint8_t speed = Constants::moveSpeed);
-        void backward(uint8_t speed = Constants::moveSpeed);
-        void rotateLeft(uint8_t speed = Constants::rotateSpeed);
-        void rotateRight(uint8_t speed = Constants::rotateSpeed);
-        bool isStopped();
-        bool isRotatingLeft();
-        bool isRotatingRight();
+public:
+    Motors();
+    ~Motors();
+    short getLeftSpeed();
+    short getRightSpeed();
+    void off();
+    void stop();
+    void move(short leftSpeed, short rightSpeed);
+    void forward(unsigned char speed = Constants::moveSpeed);
+    void backward(unsigned char speed = Constants::moveSpeed);
+    void rotateLeft(unsigned char speed = Constants::rotateSpeed);
+    void rotateRight(unsigned char speed = Constants::rotateSpeed);
+    bool isStopped();
+    bool isRotatingLeft();
+    bool isRotatingRight();
 };
 
 #endif

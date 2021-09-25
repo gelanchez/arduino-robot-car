@@ -2,8 +2,8 @@
  * @file ultrasonic.cpp
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for using the ultrasonic sensor HC-SR04.
- * @version 1.0.0
- * @date 2020-08-22
+ * @version 1.0.1
+ * @date 2021-09-25
  * @copyright GPL-3.0
  */
 
@@ -13,9 +13,9 @@
 
 Ultrasonic::Ultrasonic()
 {
-    pinMode(Constants::trigPin, OUTPUT);
-    digitalWrite(Constants::trigPin, LOW);
-    pinMode(Constants::echoPin, INPUT);
+    pinMode(Pins::trigPin, OUTPUT);
+    digitalWrite(Pins::trigPin, LOW);
+    pinMode(Pins::echoPin, INPUT);
 }
 
 Ultrasonic::~Ultrasonic()
@@ -25,23 +25,23 @@ Ultrasonic::~Ultrasonic()
 /**
  * @brief Mesaures the distance using the ultrasonic sensor.
  * @param maxDistance Max distance to be considered.
- * @return uint16_t Distance measured in cm.
+ * @return unsigned short Distance measured in cm.
  */
-uint16_t Ultrasonic::getDistance(uint16_t maxDistance)
+unsigned short Ultrasonic::getDistance(unsigned short maxDistance)
 {
-    digitalWrite(Constants::trigPin, LOW);
+    digitalWrite(Pins::trigPin, LOW);
     delayMicroseconds(3);
-    digitalWrite(Constants::trigPin, HIGH);
+    digitalWrite(Pins::trigPin, HIGH);
     delayMicroseconds(10);
-    digitalWrite(Constants::trigPin, LOW);
+    digitalWrite(Pins::trigPin, LOW);
     // noInterrupts();
-    unsigned long duration = pulseIn(Constants::echoPin, HIGH, maxDistance * 2 / Constants::soundSpeed);
+    unsigned long duration = pulseIn(Pins::echoPin, HIGH, maxDistance * 2 / Constants::soundSpeed);
     // interrupts();
 
     if (duration == 0)
         return maxDistance;
 
     // Calculate distance (cm)
-    uint16_t distance = static_cast<uint16_t>((duration/2)*Constants::soundSpeed);
+    unsigned short distance = static_cast<unsigned short>((duration / 2) * Constants::soundSpeed);
     return distance;
 }

@@ -2,8 +2,8 @@
  * @file BTprocess.cpp
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for receiving and processing the data from the serial bluetooth JSON.
- * @version 1.1.0
- * @date 2020-08-30
+ * @version 1.1.1
+ * @date 2021-09-25
  * @copyright GPL-3.0
  */
 
@@ -34,8 +34,8 @@ void BTprocess::decodeElegooJSON()
     DeserializationError error = deserializeJson(m_elegooDoc, m_dataBT);
     if (!error)
     {
-        uint8_t N = m_elegooDoc["N"];
-        uint8_t D1;
+        unsigned char N = m_elegooDoc["N"];
+        unsigned char D1;
         switch (N) // See Elegoo specifications
         {
         case 2: // remoteControlMode
@@ -44,22 +44,22 @@ void BTprocess::decodeElegooJSON()
             switch (D1)
             {
             case 1:
-                m_parameter1 = static_cast<uint8_t>(RemoteOrder::ROTATELEFT);
+                m_parameter1 = static_cast<unsigned char>(RemoteOrder::ROTATELEFT);
                 return;
             case 2:
-                m_parameter1 = static_cast<uint8_t>(RemoteOrder::ROTATERIGHT);
+                m_parameter1 = static_cast<unsigned char>(RemoteOrder::ROTATERIGHT);
                 return;
             case 3:
-                m_parameter1 = static_cast<uint8_t>(RemoteOrder::FORWARD);
+                m_parameter1 = static_cast<unsigned char>(RemoteOrder::FORWARD);
                 return;
             case 4:
-                m_parameter1 = static_cast<uint8_t>(RemoteOrder::BACKWARD);
+                m_parameter1 = static_cast<unsigned char>(RemoteOrder::BACKWARD);
                 return;
             case 5:
-                m_parameter1 = static_cast<uint8_t>(RemoteOrder::STOP);
+                m_parameter1 = static_cast<unsigned char>(RemoteOrder::STOP);
                 return;
             default:
-                m_parameter1 = static_cast<uint8_t>(RemoteOrder::UNKNOWN);
+                m_parameter1 = static_cast<unsigned char>(RemoteOrder::UNKNOWN);
                 return;
             }
         case 3: // lineTrackingMode or obstacleAvoidanceMode
@@ -103,12 +103,12 @@ RobotMode BTprocess::getMode()
     return m_mode;
 }
 
-uint8_t BTprocess::getParameter1()
+unsigned char BTprocess::getParameter1()
 {
     return m_parameter1;
 }
 
-uint8_t BTprocess::getParameter2()
+unsigned char BTprocess::getParameter2()
 {
     return m_parameter2;
 }

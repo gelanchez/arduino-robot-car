@@ -2,8 +2,8 @@
  * @file infrared.cpp
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for receiving data from the IR sensor.
- * @version 1.1.0
- * @date 2021-05-03
+ * @version 1.1.1
+ * @date 2021-09-25
  * @copyright GPL-3.0
  */
 
@@ -21,7 +21,7 @@ Infrared::~Infrared()
 
 void Infrared::begin()
 {
-    IrReceiver.begin(Constants::IRPin, DISABLE_LED_FEEDBACK);
+    IrReceiver.begin(Pins::IRPin, DISABLE_LED_FEEDBACK);
 }
 
 RemoteOrder Infrared::decodeIR()

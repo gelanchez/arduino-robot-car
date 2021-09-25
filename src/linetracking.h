@@ -2,8 +2,8 @@
  * @file linetracking.h
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library to handle the linetracking IR sensors.
- * @version 1.0.0
- * @date 2020-08-22
+ * @version 1.0.1
+ * @date 2021-09-25
  * @copyright GPL-3.0
  */
 
@@ -12,18 +12,16 @@
 
 class LineTracking
 {
-    private:
-
-    public:
-        LineTracking();
-        ~LineTracking();
-        bool leftLine();
-        bool midLine();
-        bool rightLine();
-        bool anyLine();
-        bool allLines();
-        void printLines();
+private:
+public:
+    LineTracking();
+    ~LineTracking();
+    bool leftLine();
+    bool midLine();
+    bool rightLine();
+    bool anyLine();
+    bool allLines();
+    void printLines();
 };
-
 
 #endif
