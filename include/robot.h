@@ -10,13 +10,13 @@
 #define ROBOT_H
 
 #include "infrared.h"
+#include "linetracking.h"
 #include "motors.h"
 #include "myservo.h"
-#include "linetracking.h"
 #include "ultrasonic.h"
 #include <Arduino.h>
 
-class RobotControl
+class Robot
 {
 private:
     Motors m_motors;
@@ -31,8 +31,8 @@ private:
 
 public:
     Infrared m_infrared; // Member variable as public to enable from main
-    RobotControl();
-    ~RobotControl();
+    Robot();
+    ~Robot();
     void restartState();
     void begin();
 

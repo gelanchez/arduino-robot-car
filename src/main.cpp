@@ -11,13 +11,13 @@
 #include "constants.h"
 #include "robot.h"
 
-RobotControl Robot = RobotControl();       // Initialization of the RobotControl object
+Robot robot = Robot();                     // Initialization of the Robot object
 BTprocess BTproc = BTprocess();            // Initialization of the BT processor object
 RobotMode mode = RobotMode::REMOTECONTROL; // Default mode
 
 void setup()
 {
-    Robot.begin();
+    robot.begin();
     delay(Constants::serialDelay); // To make Serial work
 }
 
@@ -27,38 +27,38 @@ void loop()
     if (BTproc.getBTData() != "")
         BTproc.decodeElegooJSON();
     if (mode != BTproc.getMode())
-        Robot.restartState();
+        robot.restartState();
 
     switch (BTproc.getMode())
     {
     case RobotMode::REMOTECONTROL:
         mode = RobotMode::REMOTECONTROL;
-        Robot.remoteControlMode(static_cast<RemoteOrder>(BTproc.getParameter1()));
+        robot.remoteControlMode(static_cast<RemoteOrder>(BTproc.getParameter1()));
         break;
 
     case RobotMode::IRCONTROL:
         mode = RobotMode::IRCONTROL;
-        Robot.IRControlMode();
+        robot.IRControlMode();
         break;
 
     case RobotMode::OBSTACLEAVOIDANCE:
         mode = RobotMode::OBSTACLEAVOIDANCE;
-        Robot.obstacleAvoidanceMode();
+        robot.obstacleAvoidanceMode();
         break;
 
     case RobotMode::LINETRACKING:
         mode = RobotMode::LINETRACKING;
-        Robot.lineTrackingMode();
+        robot.lineTrackingMode();
         break;
 
     case RobotMode::PARK:
-        Robot.parkMode();
+        robot.parkMode();
         mode = RobotMode::REMOTECONTROL;
-        Robot.restartState();
+        robot.restartState();
         break;
 
     case RobotMode::CUSTOM:
-        Robot.customMode();
+        robot.customMode();
         break;
 
     default:

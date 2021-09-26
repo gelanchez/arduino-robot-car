@@ -16,7 +16,10 @@
 #include "ultrasonic.h"
 #include <Arduino.h>
 
-RobotControl::RobotControl() // Member initializer lists
+/**
+ * @brief Construct a new Robot::Robot object
+ */
+Robot::Robot()
     : m_motors{}, m_servo{}, m_ultrasonic{}, m_lineTracking{},
       m_sonarMap{Constants::maxDistance, Constants::maxDistance, Constants::maxDistance, Constants::maxDistance, Constants::maxDistance},
       m_state{RobotModeState::START}, m_previousAngle{90}, m_interval{Constants::updateInterval}, m_infrared{}
@@ -24,12 +27,15 @@ RobotControl::RobotControl() // Member initializer lists
     m_lastUpdate = millis();
 }
 
-RobotControl::~RobotControl()
+/**
+ * @brief Destroy the Robot::Robot object
+ */
+Robot::~Robot()
 {
     m_servo.detach();
 }
 
-void RobotControl::restartState()
+void Robot::restartState()
 {
     if (m_servo.read() != 90)
         m_servo.write(90);
@@ -45,14 +51,14 @@ void RobotControl::restartState()
     }
 }
 
-void RobotControl::begin()
+void Robot::begin()
 {
     Serial.begin(Constants::serialBaud); // Can not be inside a constructor
     m_servo.begin();                     // Servo initialization can not be done inside Robot constructor
     m_infrared.begin();                  // Infrared initialization
 }
 
-void RobotControl::remoteControlMode(RemoteOrder order)
+void Robot::remoteControlMode(RemoteOrder order)
 {
     switch (order)
     {
@@ -76,7 +82,7 @@ void RobotControl::remoteControlMode(RemoteOrder order)
     }
 }
 
-void RobotControl::IRControlMode()
+void Robot::IRControlMode()
 {
     RemoteOrder order = m_infrared.decodeIR();
     switch (order) // Equal to remoteControlMode but updating the timer
@@ -112,7 +118,7 @@ void RobotControl::IRControlMode()
     }
 }
 
-void RobotControl::obstacleAvoidanceMode()
+void Robot::obstacleAvoidanceMode()
 {
     if ((millis() - m_lastUpdate) >= m_interval)
     {
@@ -198,7 +204,7 @@ void RobotControl::obstacleAvoidanceMode()
     }
 }
 
-void RobotControl::lineTrackingMode()
+void Robot::lineTrackingMode()
 {
     switch (m_state)
     {
@@ -309,7 +315,7 @@ void RobotControl::lineTrackingMode()
     }
 }
 
-void RobotControl::parkMode()
+void Robot::parkMode()
 {
     for (int i{0}; i <= 1; ++i)
     {
@@ -358,7 +364,7 @@ void RobotControl::parkMode()
     m_motors.stop();
 }
 
-void RobotControl::customMode()
+void Robot::customMode()
 {
     if (m_servo.read() != 0)
     {
@@ -375,7 +381,7 @@ void RobotControl::customMode()
         m_motors.move(0, Constants::moveSpeed);
 }
 
-unsigned char RobotControl::mapAngle(unsigned char angle) const
+unsigned char Robot::mapAngle(unsigned char angle) const
 {
     switch (angle)
     {
@@ -394,7 +400,7 @@ unsigned char RobotControl::mapAngle(unsigned char angle) const
     }
 }
 
-void RobotControl::moveServoSequence() // Sequences: {90, 150, 90, 30} {90, 180, 90, 0}
+void Robot::moveServoSequence() // Sequences: {90, 150, 90, 30} {90, 180, 90, 0}
 {
     unsigned char currentAngle = m_servo.read();
     if (currentAngle != 90)
@@ -413,7 +419,7 @@ void RobotControl::moveServoSequence() // Sequences: {90, 150, 90, 30} {90, 180,
     m_previousAngle = currentAngle;
 }
 
-unsigned char RobotControl::calculateSpeed(unsigned short distance, unsigned short minDistance, unsigned short maxDistance, unsigned char minSpeed) const
+unsigned char Robot::calculateSpeed(unsigned short distance, unsigned short minDistance, unsigned short maxDistance, unsigned char minSpeed) const
 {
     return minSpeed + static_cast<unsigned char>((distance - minDistance) * (255 - minSpeed) / (maxDistance - minDistance));
 }
