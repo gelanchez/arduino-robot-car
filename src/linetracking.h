@@ -16,12 +16,12 @@ private:
 public:
     LineTracking();
     ~LineTracking();
-    bool leftLine();
-    bool midLine();
-    bool rightLine();
-    bool anyLine();
-    bool allLines();
-    void printLines();
+    bool leftLine() const;
+    bool midLine() const;
+    bool rightLine() const;
+    bool anyLine() const;
+    bool allLines() const;
+    void printLines() const;
 };
 
 #endif

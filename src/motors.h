@@ -21,8 +21,8 @@ private:
 public:
     Motors();
     ~Motors();
-    short getLeftSpeed();
-    short getRightSpeed();
+    short getLeftSpeed() const;
+    short getRightSpeed() const;
     void off();
     void stop();
     void move(short leftSpeed, short rightSpeed);
@@ -30,9 +30,9 @@ public:
     void backward(unsigned char speed = Constants::moveSpeed);
     void rotateLeft(unsigned char speed = Constants::rotateSpeed);
     void rotateRight(unsigned char speed = Constants::rotateSpeed);
-    bool isStopped();
-    bool isRotatingLeft();
-    bool isRotatingRight();
+    bool isStopped() const;
+    bool isRotatingLeft() const;
+    bool isRotatingRight() const;
 };
 
 #endif

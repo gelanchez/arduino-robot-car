@@ -21,32 +21,32 @@ LineTracking::~LineTracking()
 {
 }
 
-bool LineTracking::leftLine()
+bool LineTracking::leftLine() const
 {
     return !digitalRead(Pins::ltLeftPin);
 }
 
-bool LineTracking::midLine()
+bool LineTracking::midLine() const
 {
     return !digitalRead(Pins::ltMidPin);
 }
 
-bool LineTracking::rightLine()
+bool LineTracking::rightLine() const
 {
     return !digitalRead(Pins::ltRightPin);
 }
 
-bool LineTracking::anyLine()
+bool LineTracking::anyLine() const
 {
     return (leftLine() || midLine() || rightLine());
 }
 
-bool LineTracking::allLines()
+bool LineTracking::allLines() const
 {
     return (leftLine() && midLine() && rightLine());
 }
 
-void LineTracking::printLines()
+void LineTracking::printLines() const
 {
     Serial.print(leftLine());
     Serial.print(" ");

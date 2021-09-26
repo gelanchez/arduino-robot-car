@@ -45,9 +45,9 @@ public:
 
 protected:
     void speedControl();
-    unsigned char mapAngle(unsigned char angle);
+    unsigned char mapAngle(unsigned char angle) const;
     void moveServoSequence();
-    unsigned char calculateSpeed(unsigned short distance, unsigned short minDistance = Constants::minDistance, unsigned short maxDistance = Constants::maxDistance, unsigned char minSpeed = Constants::crankSpeed);
+    unsigned char calculateSpeed(unsigned short distance, unsigned short minDistance = Constants::minDistance, unsigned short maxDistance = Constants::maxDistance, unsigned char minSpeed = Constants::crankSpeed) const;
 };
 
 #endif

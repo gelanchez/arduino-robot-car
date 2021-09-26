@@ -93,22 +93,22 @@ void BTprocess::decodeElegooJSON()
     }
 }
 
-String BTprocess::getBTData()
+String BTprocess::getBTData() const
 {
     return m_dataBT;
 }
 
-RobotMode BTprocess::getMode()
+RobotMode BTprocess::getMode() const
 {
     return m_mode;
 }
 
-unsigned char BTprocess::getParameter1()
+unsigned char BTprocess::getParameter1() const
 {
     return m_parameter1;
 }
 
-unsigned char BTprocess::getParameter2()
+unsigned char BTprocess::getParameter2() const
 {
     return m_parameter2;
 }

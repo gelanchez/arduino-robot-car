@@ -26,10 +26,10 @@ public:
     BTprocess();
     ~BTprocess();
     void decodeElegooJSON();
-    String getBTData();
-    RobotMode getMode();
-    unsigned char getParameter1();
-    unsigned char getParameter2();
+    String getBTData() const;
+    RobotMode getMode() const;
+    unsigned char getParameter1() const;
+    unsigned char getParameter2() const;
     void receiveBTData();
 };
 

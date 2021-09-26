@@ -28,12 +28,12 @@ Motors::~Motors()
     off();
 }
 
-short Motors::getLeftSpeed()
+short Motors::getLeftSpeed() const
 {
     return m_leftSpeed;
 }
 
-short Motors::getRightSpeed()
+short Motors::getRightSpeed() const
 {
     return m_rightSpeed;
 }
@@ -124,21 +124,21 @@ void Motors::rotateRight(unsigned char speed)
     move(speed, -speed);
 }
 
-bool Motors::isStopped()
+bool Motors::isStopped() const
 {
     if ((m_leftSpeed == 0) && (m_rightSpeed == 0))
         return true;
     return false;
 }
 
-bool Motors::isRotatingLeft()
+bool Motors::isRotatingLeft() const
 {
     if ((m_leftSpeed < 0) && (m_rightSpeed > 0))
         return true;
     return false;
 }
 
-bool Motors::isRotatingRight()
+bool Motors::isRotatingRight() const
 {
     if ((m_leftSpeed > 0) && (m_rightSpeed < 0))
         return true;

@@ -375,7 +375,7 @@ void RobotControl::customMode()
         m_motors.move(0, Constants::moveSpeed);
 }
 
-unsigned char RobotControl::mapAngle(unsigned char angle)
+unsigned char RobotControl::mapAngle(unsigned char angle) const
 {
     switch (angle)
     {
@@ -413,7 +413,7 @@ void RobotControl::moveServoSequence() // Sequences: {90, 150, 90, 30} {90, 180,
     m_previousAngle = currentAngle;
 }
 
-unsigned char RobotControl::calculateSpeed(unsigned short distance, unsigned short minDistance, unsigned short maxDistance, unsigned char minSpeed)
+unsigned char RobotControl::calculateSpeed(unsigned short distance, unsigned short minDistance, unsigned short maxDistance, unsigned char minSpeed) const
 {
     return minSpeed + static_cast<unsigned char>((distance - minDistance) * (255 - minSpeed) / (maxDistance - minDistance));
 }
