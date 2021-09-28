@@ -21,6 +21,16 @@ LineTracking::~LineTracking()
 {
 }
 
+bool LineTracking::allLines() const
+{
+    return (leftLine() && midLine() && rightLine());
+}
+
+bool LineTracking::anyLine() const
+{
+    return (leftLine() || midLine() || rightLine());
+}
+
 bool LineTracking::leftLine() const
 {
     return !digitalRead(Pins::ltLeftPin);
@@ -31,21 +41,6 @@ bool LineTracking::midLine() const
     return !digitalRead(Pins::ltMidPin);
 }
 
-bool LineTracking::rightLine() const
-{
-    return !digitalRead(Pins::ltRightPin);
-}
-
-bool LineTracking::anyLine() const
-{
-    return (leftLine() || midLine() || rightLine());
-}
-
-bool LineTracking::allLines() const
-{
-    return (leftLine() && midLine() && rightLine());
-}
-
 void LineTracking::printLines() const
 {
     Serial.print(leftLine());
@@ -54,4 +49,9 @@ void LineTracking::printLines() const
     Serial.print(" ");
     Serial.print(rightLine());
     Serial.println();
+}
+
+bool LineTracking::rightLine() const
+{
+    return !digitalRead(Pins::ltRightPin);
 }

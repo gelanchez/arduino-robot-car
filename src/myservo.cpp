@@ -7,20 +7,26 @@
  * @copyright GPL-3.0
  */
 
+#include <Servo.h>
 #include "constants.h"
 #include "myservo.h"
-#include <Servo.h>
 
+/**
+ * @brief Construct a new MyServo::MyServo object which inherits from Servo.
+ */
 MyServo::MyServo() : Servo()
 {
 }
 
+/**
+ * @brief Destroy the MyServo::MyServo object
+ */
 MyServo::~MyServo()
 {
 }
 
 /**
- * @brief Servo initialization can not be done inside Robot constructor.
+ * @brief Servo initialization. It can not be done inside Robot constructor.
  */
 void MyServo::begin()
 {

@@ -7,9 +7,9 @@
  * @copyright GPL-3.0
  */
 
+#include <IRremote.h>
 #include "constants.h"
 #include "infrared.h"
-#include <IRremote.h>
 
 Infrared::Infrared() : m_previousKey{0xFFFFFFFF}
 {

@@ -6,15 +6,16 @@
  * @date 2021-09-25
  * @copyright GPL-3.0
  */
+
 #ifndef ROBOT_H
 #define ROBOT_H
 
+#include <Arduino.h>
 #include "infrared.h"
 #include "linetracking.h"
 #include "motors.h"
 #include "myservo.h"
 #include "ultrasonic.h"
-#include <Arduino.h>
 
 class Robot
 {
@@ -29,6 +30,12 @@ private:
     unsigned long m_lastUpdate;
     unsigned short m_interval;
 
+protected:
+    void speedControl();
+    unsigned char mapAngle(unsigned char angle) const;
+    void moveServoSequence();
+    unsigned char calculateSpeed(unsigned short distance, unsigned short minDistance = Constants::minDistance, unsigned short maxDistance = Constants::maxDistance, unsigned char minSpeed = Constants::crankSpeed) const;
+
 public:
     Infrared m_infrared; // Member variable as public to enable from main
     Robot();
@@ -42,12 +49,6 @@ public:
     void lineTrackingMode();
     void parkMode();
     void customMode();
-
-protected:
-    void speedControl();
-    unsigned char mapAngle(unsigned char angle) const;
-    void moveServoSequence();
-    unsigned char calculateSpeed(unsigned short distance, unsigned short minDistance = Constants::minDistance, unsigned short maxDistance = Constants::maxDistance, unsigned char minSpeed = Constants::crankSpeed) const;
 };
 
 #endif

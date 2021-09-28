@@ -7,9 +7,9 @@
  * @copyright GPL-3.0
  */
 
+#include <Arduino.h>
 #include "constants.h"
 #include "ultrasonic.h"
-#include <Arduino.h>
 
 Ultrasonic::Ultrasonic()
 {

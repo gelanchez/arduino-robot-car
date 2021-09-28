@@ -7,6 +7,7 @@
  * @copyright GPL-3.0
  */
 
+#include <Arduino.h>
 #include "constants.h"
 #include "infrared.h"
 #include "linetracking.h"
@@ -14,7 +15,6 @@
 #include "myservo.h"
 #include "robot.h"
 #include "ultrasonic.h"
-#include <Arduino.h>
 
 /**
  * @brief Construct a new Robot::Robot object
