@@ -2,8 +2,8 @@
  * @file linetracking.h
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library to handle the linetracking IR sensors.
- * @version 1.0.1
- * @date 2021-09-25
+ * @version 1.0.2
+ * @date 2021-10-02
  * @copyright GPL-3.0
  */
 
@@ -13,8 +13,11 @@
 class LineTracking
 {
 private:
+    unsigned char m_leftPin; // Left sensor pin
+    unsigned char m_midPin; // Mid sensor pin
+    unsigned char m_rightPin; // Right sensor pin
 public:
-    LineTracking();
+    LineTracking(unsigned char leftPin, unsigned char midPin, unsigned char rightPin);
     ~LineTracking();
     bool allLines() const;
     bool anyLine() const;
