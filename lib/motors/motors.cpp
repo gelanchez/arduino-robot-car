@@ -2,26 +2,33 @@
  * @file motors.cpp
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for driving 4 motors through a H-bridge.
- * @version 1.0.1
- * @date 2021-09-25
+ * @version 1.0.2
+ * @date 2021-10-03
  * @copyright GPL-3.0
  */
 
-#include "constants.h"
 #include "motors.h"
 
 /**
  * @brief Construct a new Motors::Motors object.
+ * @param enableA Right motor enable.
+ * @param input1 Left motor input1.
+ * @param input2 Left motor input2.
+ * @param enableB Left motor enable.
+ * @param input3 Left motor input3.
+ * @param input4 Left motor input4.
+ * @param crankSpeed Minimun crank speed.
+ * @param idleSpeed Minimum idle speed.
  */
-Motors::Motors() : m_leftSpeed{0}, m_rightSpeed{0}
+Motors::Motors(unsigned char enableA, unsigned char input1, unsigned char input2, unsigned char enableB, unsigned char input3, unsigned char input4, unsigned char crankSpeed, unsigned char idleSpeed)
+    : m_enableA{enableA}, m_input1{input1}, m_input2{input2}, m_enableB{enableB}, m_input3{input3}, m_input4{input4}, m_crankSpeed{crankSpeed}, m_idleSpeed{idleSpeed}, m_leftSpeed{0}, m_rightSpeed{0}
 {
-    // Pins used for motors
-    pinMode(Pins::motorsEnA, OUTPUT);
-    pinMode(Pins::motorsIn1, OUTPUT);
-    pinMode(Pins::motorsIn2, OUTPUT);
-    pinMode(Pins::motorsEnB, OUTPUT);
-    pinMode(Pins::motorsIn3, OUTPUT);
-    pinMode(Pins::motorsIn4, OUTPUT);
+    pinMode(enableA, OUTPUT);
+    pinMode(input1, OUTPUT);
+    pinMode(input2, OUTPUT);
+    pinMode(enableB, OUTPUT);
+    pinMode(input3, OUTPUT);
+    pinMode(input4, OUTPUT);
 
     off();
 }
@@ -104,41 +111,41 @@ void Motors::move(short leftSpeed, short rightSpeed)
     rightSpeed = constrain(rightSpeed, -255, 255);
 
     // Prevent buzzing at low speeds
-    unsigned char minLeftSpeed = (m_leftSpeed == 0) ? Constants::crankSpeed : Constants::idleSpeed;
-    unsigned char minRightSpeed = (m_rightSpeed == 0) ? Constants::crankSpeed : Constants::idleSpeed;
+    unsigned char minLeftSpeed = (m_leftSpeed == 0) ? m_crankSpeed : m_idleSpeed;
+    unsigned char minRightSpeed = (m_rightSpeed == 0) ? m_crankSpeed : m_idleSpeed;
 
-    // Member variables updatefirst
+    // Member variables update first
     m_leftSpeed = (abs(leftSpeed) < minLeftSpeed) ? 0 : leftSpeed;
     m_rightSpeed = (abs(rightSpeed) < minRightSpeed) ? 0 : rightSpeed;
 
     if (m_leftSpeed < 0)
     {
-        digitalWrite(Pins::motorsIn3, HIGH);
-        digitalWrite(Pins::motorsIn4, LOW);
-        analogWrite(Pins::motorsEnB, abs(m_leftSpeed));
+        digitalWrite(m_input3, HIGH);
+        digitalWrite(m_input4, LOW);
+        analogWrite(m_enableB, abs(m_leftSpeed));
     }
     else if (m_leftSpeed == 0)
-        analogWrite(Pins::motorsEnB, 0);
+        analogWrite(m_enableB, 0);
     else
     {
-        digitalWrite(Pins::motorsIn3, LOW);
-        digitalWrite(Pins::motorsIn4, HIGH);
-        analogWrite(Pins::motorsEnB, m_leftSpeed);
+        digitalWrite(m_input3, LOW);
+        digitalWrite(m_input4, HIGH);
+        analogWrite(m_enableB, m_leftSpeed);
     }
 
     if (m_rightSpeed < 0)
     {
-        digitalWrite(Pins::motorsIn1, LOW);
-        digitalWrite(Pins::motorsIn2, HIGH);
-        analogWrite(Pins::motorsEnA, abs(m_rightSpeed));
+        digitalWrite(m_input1, LOW);
+        digitalWrite(m_input2, HIGH);
+        analogWrite(m_enableA, abs(m_rightSpeed));
     }
     else if (m_rightSpeed == 0)
-        analogWrite(Pins::motorsEnA, 0);
+        analogWrite(m_enableA, 0);
     else
     {
-        digitalWrite(Pins::motorsIn1, HIGH);
-        digitalWrite(Pins::motorsIn2, LOW);
-        analogWrite(Pins::motorsEnA, m_rightSpeed);
+        digitalWrite(m_input1, HIGH);
+        digitalWrite(m_input2, LOW);
+        analogWrite(m_enableA, m_rightSpeed);
     }
 }
 
@@ -184,10 +191,10 @@ void Motors::rotateRight(unsigned char speed)
 void Motors::off()
 {
     stop();
-    digitalWrite(Pins::motorsIn1, LOW);
-    digitalWrite(Pins::motorsIn2, LOW);
-    digitalWrite(Pins::motorsIn3, LOW);
-    digitalWrite(Pins::motorsIn4, LOW);
+    digitalWrite(m_input1, LOW);
+    digitalWrite(m_input2, LOW);
+    digitalWrite(m_input3, LOW);
+    digitalWrite(m_input4, LOW);
 }
 
 /**
@@ -195,8 +202,8 @@ void Motors::off()
  */
 void Motors::stop()
 {
-    digitalWrite(Pins::motorsEnA, LOW);
-    digitalWrite(Pins::motorsEnB, LOW);
+    digitalWrite(m_enableA, LOW);
+    digitalWrite(m_enableB, LOW);
     m_leftSpeed = 0;
     m_rightSpeed = 0;
 }
