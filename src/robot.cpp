@@ -2,8 +2,8 @@
  * @file robot.cpp
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for controling the robot.
- * @version 1.1.1
- * @date 2021-09-25
+ * @version 1.1.2
+ * @date 2021-10-03
  * @copyright GPL-3.0
  */
 
@@ -17,10 +17,13 @@
 #include "ultrasonic.h"
 
 /**
- * @brief Construct a new Robot::Robot object
+ * @brief Construct a new Robot::Robot object.
  */
 Robot::Robot()
-    : m_motors{}, m_servo{}, m_ultrasonic{}, m_lineTracking{},
+    : m_motors{Pins::motorsEnA, Pins::motorsIn1, Pins::motorsIn2, Pins::motorsEnB, Pins::motorsIn3, Pins::motorsIn4, Constants::crankSpeed, Constants::idleSpeed},
+      m_servo{Pins::servoPin, Constants::servo0, Constants::servo180},
+      m_ultrasonic{Pins::triggerPin, Pins::echoPin},
+      m_lineTracking{Pins::ltLeftPin, Pins::ltMidPin, Pins::ltRightPin},
       m_sonarMap{Constants::maxDistance, Constants::maxDistance, Constants::maxDistance, Constants::maxDistance, Constants::maxDistance},
       m_state{RobotModeState::START}, m_previousAngle{90}, m_interval{Constants::updateInterval}, m_infrared{}
 {
@@ -28,7 +31,7 @@ Robot::Robot()
 }
 
 /**
- * @brief Destroy the Robot::Robot object
+ * @brief Destroy the Robot::Robot object.
  */
 Robot::~Robot()
 {
@@ -66,16 +69,16 @@ void Robot::remoteControlMode(RemoteOrder order)
         m_motors.stop();
         return;
     case RemoteOrder::FORWARD:
-        m_motors.forward();
+        m_motors.forward(Constants::moveSpeed);
         return;
     case RemoteOrder::BACKWARD:
-        m_motors.backward();
+        m_motors.backward(Constants::moveSpeed);
         return;
     case RemoteOrder::ROTATELEFT:
-        m_motors.rotateLeft();
+        m_motors.rotateLeft(Constants::rotateSpeed);
         return;
     case RemoteOrder::ROTATERIGHT:
-        m_motors.rotateRight();
+        m_motors.rotateRight(Constants::rotateSpeed);
         return;
     default:
         return;
@@ -92,19 +95,19 @@ void Robot::IRControlMode()
         m_lastUpdate = millis();
         break;
     case RemoteOrder::FORWARD:
-        m_motors.forward();
+        m_motors.forward(Constants::moveSpeed);
         m_lastUpdate = millis();
         break;
     case RemoteOrder::BACKWARD:
-        m_motors.backward();
+        m_motors.backward(Constants::moveSpeed);
         m_lastUpdate = millis();
         break;
     case RemoteOrder::ROTATELEFT:
-        m_motors.rotateLeft();
+        m_motors.rotateLeft(Constants::rotateSpeed);
         m_lastUpdate = millis();
         break;
     case RemoteOrder::ROTATERIGHT:
-        m_motors.rotateRight();
+        m_motors.rotateRight(Constants::rotateSpeed);
         m_lastUpdate = millis();
         break;
     default:
@@ -123,7 +126,7 @@ void Robot::obstacleAvoidanceMode()
     if ((millis() - m_lastUpdate) >= m_interval)
     {
         m_lastUpdate = millis();
-        m_sonarMap[mapAngle(m_servo.read())] = m_ultrasonic.getDistance();
+        m_sonarMap[mapAngle(m_servo.read())] = m_ultrasonic.getDistance(Constants::maxDistance);
         switch (m_state)
         {
         case RobotModeState::START:
@@ -156,13 +159,13 @@ void Robot::obstacleAvoidanceMode()
             else if (m_sonarMap[1] < Constants::minDistance)
             {
                 if (!m_motors.isRotatingLeft())
-                    m_motors.rotateLeft();
+                    m_motors.rotateLeft(Constants::rotateSpeed);
                 m_interval = 0; // Scan faster and don't turn the servo
             }
             else if (m_sonarMap[3] < Constants::minDistance)
             {
                 if (!m_motors.isRotatingRight())
-                    m_motors.rotateRight();
+                    m_motors.rotateRight(Constants::rotateSpeed);
                 m_interval = 0; // Scan faster and don't turn the servo
             }
             else
@@ -185,15 +188,15 @@ void Robot::obstacleAvoidanceMode()
             }
             break;
         case RobotModeState::ROTATE:
-            (m_sonarMap[0] < m_sonarMap[4]) ? m_motors.rotateLeft() : m_motors.rotateRight(); // Condicional operator
-            m_interval = Constants::rotate90Time;                                             // Rotate 90
+            (m_sonarMap[0] < m_sonarMap[4]) ? m_motors.rotateLeft(Constants::rotateSpeed) : m_motors.rotateRight(Constants::rotateSpeed); // Condicional operator
+            m_interval = Constants::rotate90Time;                                                                                         // Rotate 90
             m_state = RobotModeState::START;
             m_sonarMap[1] = Constants::maxDistance; // Reset values
             m_sonarMap[3] = Constants::maxDistance; // Reset values
             break;
         case RobotModeState::BLOCKED:
-            (m_sonarMap[0] < m_sonarMap[4]) ? m_motors.rotateLeft() : m_motors.rotateRight(); // Condicional operator
-            m_interval = Constants::rotate180Time;                                            // Rotate 180
+            (m_sonarMap[0] < m_sonarMap[4]) ? m_motors.rotateLeft(Constants::rotateSpeed) : m_motors.rotateRight(Constants::rotateSpeed); // Condicional operator
+            m_interval = Constants::rotate180Time;                                                                                        // Rotate 180
             m_state = RobotModeState::START;
             m_sonarMap[1] = Constants::maxDistance; // Reset values
             m_sonarMap[3] = Constants::maxDistance; // Reset values
@@ -230,7 +233,7 @@ void Robot::lineTrackingMode()
                 m_motors.stop();
                 m_servo.write(0); // Look right
                 m_state = RobotModeState::ROTATE;
-                m_motors.rotateLeft();
+                m_motors.rotateLeft(Constants::rotateSpeed);
                 m_lastUpdate = millis();
                 delay(Constants::rotate90Time / 2); // To avoid the line detection in ROTATE
                 return;
@@ -238,9 +241,9 @@ void Robot::lineTrackingMode()
         }
 
         if (m_lineTracking.leftLine())
-            m_motors.rotateLeft();
+            m_motors.rotateLeft(Constants::rotateSpeed);
         else if (m_lineTracking.rightLine())
-            m_motors.rotateRight();
+            m_motors.rotateRight(Constants::rotateSpeed);
         else if (m_lineTracking.midLine())
             m_motors.forward(calculateSpeed(m_sonarMap[2], Constants::minDetourDistance, Constants::maxDistanceLineTracking, Constants::moveSpeed));
         else // No line detected
@@ -272,11 +275,11 @@ void Robot::lineTrackingMode()
         }
         else // Going around finished, line detected, last rotation
         {
-            m_motors.forward();
+            m_motors.forward(Constants::moveSpeed);
             delay(Constants::extraTimeLine); // Extra time to over pass the line
             m_motors.stop();
             m_servo.write(90); // Look front
-            m_motors.rotateLeft();
+            m_motors.rotateLeft(Constants::rotateSpeed);
             while (!m_lineTracking.midLine())
                 ; // Keep rotating until you find the line
             m_state = RobotModeState::START;
@@ -293,9 +296,9 @@ void Robot::lineTrackingMode()
         break;
     case RobotModeState::LINELOST:
     {
-        m_motors.rotateRight(); // Rotate 180 and find the line
+        m_motors.rotateRight(Constants::rotateSpeed); // Rotate 180 and find the line
         delay(Constants::rotate180Time);
-        m_motors.forward(); // Try and find the line backwards
+        m_motors.forward(Constants::moveSpeed); // Try and find the line backwards
 
         // Wait and see if backwards you can find the line
         unsigned long timeNoLine = millis();
@@ -317,11 +320,11 @@ void Robot::lineTrackingMode()
 
 void Robot::parkMode()
 {
-    for (int i{0}; i <= 1; ++i)
+    for (size_t i{0}; i <= 1; ++i)
     {
         m_servo.write(i * 180);
         delay(2 * Constants::updateInterval);
-        m_sonarMap[mapAngle(m_servo.read())] = m_ultrasonic.getDistance();
+        m_sonarMap[mapAngle(m_servo.read())] = m_ultrasonic.getDistance(Constants::maxDistance);
     }
     if (m_sonarMap[mapAngle(0)] < m_sonarMap[mapAngle(180)]) // Park on the right
         m_servo.write(0);
@@ -331,14 +334,14 @@ void Robot::parkMode()
     delay(2 * Constants::updateInterval); // Enough time to move the servo
 
     // Pass the 1st object
-    while (m_ultrasonic.getDistance() < Constants::minDistance)
+    while (m_ultrasonic.getDistance(Constants::maxDistance) < Constants::minDistance)
     {
         delay(20);
         m_motors.forward(Constants::crankSpeed);
     }
 
     // Arrive to the second object
-    while (m_ultrasonic.getDistance() > Constants::minDistance)
+    while (m_ultrasonic.getDistance(Constants::maxDistance) > Constants::minDistance)
     {
         delay(50);
         m_motors.forward(Constants::crankSpeed);
@@ -348,18 +351,18 @@ void Robot::parkMode()
     delay(Constants::timeMoveAway); // Time to move away
 
     if (m_sonarMap[mapAngle(0)] < m_sonarMap[mapAngle(180)]) // Park on the right
-        m_motors.rotateRight();
+        m_motors.rotateRight(Constants::rotateSpeed);
     else // Park on the left
-        m_motors.rotateLeft();
+        m_motors.rotateLeft(Constants::rotateSpeed);
     delay(Constants::rotate90Time);
     m_motors.stop();
     m_motors.forward(Constants::crankSpeed);
     delay(Constants::timeMoving);
 
     if (m_sonarMap[mapAngle(0)] < m_sonarMap[mapAngle(180)]) // Park on the right
-        m_motors.rotateLeft();
+        m_motors.rotateLeft(Constants::rotateSpeed);
     else // Park on the left
-        m_motors.rotateRight();
+        m_motors.rotateRight(Constants::rotateSpeed);
     delay(Constants::rotate90Time);
     m_motors.stop();
 }

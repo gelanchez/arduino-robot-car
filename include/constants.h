@@ -33,8 +33,8 @@ namespace Pins
     constexpr unsigned char servoPin{3};
 
     // Ultrasonic sensor
-    constexpr unsigned char trigPin{A5}; // Pin 19
-    constexpr unsigned char echoPin{A4}; // Pin 18
+    constexpr unsigned char echoPin{A4};    // Pin 18
+    constexpr unsigned char triggerPin{A5}; // Pin 19
 
     // Infrared
     constexpr unsigned char IRPin{12};
@@ -74,13 +74,12 @@ namespace Constants
     constexpr unsigned short timeMoveAway{150};
 
     // Servo 0 deg and 180 deg PWM positions
-    constexpr unsigned short servo0{500};    // Calibration 450, default 544
-    constexpr unsigned short servo180{2400}; // Calibration 2430, default 2400
+    constexpr unsigned int servo0{500};    // Calibration 450, default 544
+    constexpr unsigned int servo180{2400}; // Calibration 2430, default 2400
 
     // Ultrasonic sensor
-    constexpr float soundSpeed{0.0343};                    // cm/s
     constexpr unsigned short maxDistance{250};             // Maximun distance to meassure in cm
-    constexpr unsigned short maxDistanceLineTracking{100}; // Maximun distance to meassure in cm to be used in the linetraking mode
+    constexpr unsigned short maxDistanceLineTracking{100}; // Maximun distance to meassure in cm used in the linetraking mode
 
     // Infrared
     constexpr unsigned long okKey{0xFF02FD};
