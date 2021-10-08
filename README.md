@@ -25,7 +25,7 @@ Apart from the standard Arduino libraries, some other ones must be installed (th
 
 ## Installation
 1. Install the required libraries (Arduino IDE only).
-2. Download the repository and flash the Arduino. If using the Arduino IDE, consider changing the name of the src folder and src.ino to something appropriate.
+2. Download the repository and flash the Arduino with PlatformIO. If using the Arduino IDE, consider changing the name of the src folder and src.ino to something appropriate and update paths to libraries if necessary.
 
 ## Usage
 The oficial "Elegoo Ble Tool" application for Android / iPhone / iPad must be downloaded to interact with the robot. Nevertheless, changing the initial robot mode in the code will allow you to use it without the app.
