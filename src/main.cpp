@@ -2,8 +2,8 @@
  * @file main.ino
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Main program.
- * @version 1.1.1
- * @date 2021-09-25
+ * @version 1.1.2
+ * @date 2021-09-26
  * @copyright GPL-3.0
  */
 
@@ -11,54 +11,60 @@
 #include "constants.h"
 #include "robot.h"
 
-Robot robot = Robot();                     // Initialization of the Robot object
-BTprocess BTproc = BTprocess();            // Initialization of the BT processor object
-RobotMode mode = RobotMode::REMOTECONTROL; // Default mode
+static Robot g_robot = Robot();                     // Initialization of the Robot object
+static BTprocess g_BTprocess = BTprocess();         // Initialization of the BT processor object
+static RobotMode g_mode = RobotMode::REMOTECONTROL; // Default robot mode
 
+/**
+ * @brief Main setup. Initialize robot.
+ */
 void setup()
 {
-    robot.begin();
+    g_robot.begin();
     delay(Constants::serialDelay); // To make Serial work
 }
 
+/**
+ * @brief Main loop. Process bluetooth order and run the mode.
+ */
 void loop()
 {
-    BTproc.receiveBTData();
-    if (BTproc.getBTData() != "")
-        BTproc.decodeElegooJSON();
-    if (mode != BTproc.getMode())
-        robot.restartState();
+    g_BTprocess.receiveBTData();
+    if (g_BTprocess.getBTData() != "")
+        g_BTprocess.decodeElegooJSON();
+    if (g_mode != g_BTprocess.getMode())
+        g_robot.restartState();
 
-    switch (BTproc.getMode())
+    switch (g_BTprocess.getMode())
     {
     case RobotMode::REMOTECONTROL:
-        mode = RobotMode::REMOTECONTROL;
-        robot.remoteControlMode(static_cast<RemoteOrder>(BTproc.getParameter1()));
+        g_mode = RobotMode::REMOTECONTROL;
+        g_robot.remoteControlMode(static_cast<RemoteOrder>(g_BTprocess.getParameter1()));
         break;
 
     case RobotMode::IRCONTROL:
-        mode = RobotMode::IRCONTROL;
-        robot.IRControlMode();
+        g_mode = RobotMode::IRCONTROL;
+        g_robot.IRControlMode();
         break;
 
     case RobotMode::OBSTACLEAVOIDANCE:
-        mode = RobotMode::OBSTACLEAVOIDANCE;
-        robot.obstacleAvoidanceMode();
+        g_mode = RobotMode::OBSTACLEAVOIDANCE;
+        g_robot.obstacleAvoidanceMode();
         break;
 
     case RobotMode::LINETRACKING:
-        mode = RobotMode::LINETRACKING;
-        robot.lineTrackingMode();
+        g_mode = RobotMode::LINETRACKING;
+        g_robot.lineTrackingMode();
         break;
 
     case RobotMode::PARK:
-        robot.parkMode();
-        mode = RobotMode::REMOTECONTROL;
-        robot.restartState();
+        g_robot.parkMode();
+        g_mode = RobotMode::REMOTECONTROL;
+        g_robot.restartState();
         break;
 
     case RobotMode::CUSTOM:
-        robot.customMode();
+        g_robot.customMode();
         break;
 
     default:
