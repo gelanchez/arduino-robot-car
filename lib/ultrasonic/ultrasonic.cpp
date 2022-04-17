@@ -48,5 +48,5 @@ unsigned short Ultrasonic::getDistance(unsigned short maxDistance)
         return maxDistance;
 
     // Calculate distance (cm)
-    return static_cast<unsigned short>(maxDistance / s_halfSpeedOfSound);
+    return static_cast<unsigned short>(duration * s_halfSpeedOfSound);
 }
