@@ -33,7 +33,7 @@ BTprocess::~BTprocess()
  * {"N":5} square down bluetoothFollowing.
  * {"N":3,"D1":1} line tracking.
  * {"N":3,"D1":2} obstacle avoidance.
- * {"N":2,"D1":1..5} joystick.
+ * {"N":2,"D1":1..9} joystick.
  */
 void BTprocess::decodeElegooJSON()
 {
@@ -50,10 +50,10 @@ void BTprocess::decodeElegooJSON()
             switch (D1)
             {
             case 1:
-                m_parameter1 = static_cast<unsigned char>(RemoteOrder::ROTATELEFT);
+                m_parameter1 = static_cast<unsigned char>(RemoteOrder::LEFT);
                 return;
             case 2:
-                m_parameter1 = static_cast<unsigned char>(RemoteOrder::ROTATERIGHT);
+                m_parameter1 = static_cast<unsigned char>(RemoteOrder::RIGHT);
                 return;
             case 3:
                 m_parameter1 = static_cast<unsigned char>(RemoteOrder::FORWARD);
@@ -63,6 +63,18 @@ void BTprocess::decodeElegooJSON()
                 return;
             case 5:
                 m_parameter1 = static_cast<unsigned char>(RemoteOrder::STOP);
+                return;
+            case 6:
+                m_parameter1 = static_cast<unsigned char>(RemoteOrder::FORWARD_LEFT);
+                return;
+            case 7:
+                m_parameter1 = static_cast<unsigned char>(RemoteOrder::BACKWARD_LEFT);
+                return;
+            case 8:
+                m_parameter1 = static_cast<unsigned char>(RemoteOrder::FORWARD_RIGHT);
+                return;
+            case 9:
+                m_parameter1 = static_cast<unsigned char>(RemoteOrder::BACKWARD_RIGHT);
                 return;
             default:
                 m_parameter1 = static_cast<unsigned char>(RemoteOrder::UNKNOWN);

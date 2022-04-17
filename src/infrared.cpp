@@ -45,9 +45,9 @@ RemoteOrder Infrared::decodeIR()
         case Constants::downKey:
             return RemoteOrder::BACKWARD;
         case Constants::leftKey:
-            return RemoteOrder::ROTATELEFT;
+            return RemoteOrder::LEFT;
         case Constants::rightKey:
-            return RemoteOrder::ROTATERIGHT;
+            return RemoteOrder::RIGHT;
         default:
             return RemoteOrder::UNKNOWN;
         }

@@ -31,8 +31,12 @@ public:
     void move(short leftSpeed, short rightSpeed);
     void forward(unsigned char speed);
     void backward(unsigned char speed);
-    void rotateLeft(unsigned char speed);
-    void rotateRight(unsigned char speed);
+    void left(unsigned char speed);
+    void right(unsigned char speed);
+    void forwardLeft(unsigned char speed);
+    void forwardRight(unsigned char speed);
+    void backwardLeft(unsigned char speed);
+    void backwardRight(unsigned char speed);
     void off();
     void stop();
 };

@@ -171,7 +171,7 @@ void Motors::backward(unsigned char speed)
  * @brief Rotate robot left.
  * @param speed Robot speed (0..255).
  */
-void Motors::rotateLeft(unsigned char speed)
+void Motors::left(unsigned char speed)
 {
     move(-speed, speed);
 }
@@ -180,9 +180,45 @@ void Motors::rotateLeft(unsigned char speed)
  * @brief Rotate robot right.
  * @param speed Robot speed (0..255).
  */
-void Motors::rotateRight(unsigned char speed)
+void Motors::right(unsigned char speed)
 {
     move(speed, -speed);
+}
+
+/**
+ * @brief Move forward turning left.
+ * @param speed Robot speed (0..255).
+ */
+void Motors::forwardLeft(unsigned char speed)
+{
+    move(speed/2, speed);
+}
+
+/**
+ * @brief Move forward turning right.
+ * @param speed Robot speed (0..255).
+ */
+void Motors::forwardRight(unsigned char speed)
+{
+    move(speed, speed/2);
+}
+
+/**
+ * @brief Move backward turning left.
+ * @param speed Robot speed (0..255).
+ */
+void Motors::backwardLeft(unsigned char speed)
+{
+    move(-speed/2, -speed);
+}
+
+/**
+ * @brief Move backward turning right.
+ * @param speed Robot speed (0..255).
+ */
+void Motors::backwardRight(unsigned char speed)
+{
+    move(-speed, -speed/2);
 }
 
 /**

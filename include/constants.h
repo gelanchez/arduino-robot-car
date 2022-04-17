@@ -51,9 +51,9 @@ namespace Constants
     constexpr unsigned char idleSpeed{90};
 
     // Default speeds
-    constexpr unsigned char moveSpeed{170};
+    constexpr unsigned char linearSpeed{170};
     constexpr unsigned char rotateSpeed{150};
-    constexpr unsigned short rotate90Time{650};   // Time to rotate 90 deg @ moveSpeed @ full battery
+    constexpr unsigned short rotate90Time{650};   // Time to rotate 90 deg @ linearSpeed @ full battery
     constexpr unsigned short rotate180Time{1200}; // Time to rotate 180 deg @ rotateSpeed @ full battery
 
     // Obstacle avoidance
@@ -108,11 +108,15 @@ enum class RobotMode
  */
 enum class RemoteOrder
 {
-    STOP,
+    LEFT = 1,
+    RIGHT,
     FORWARD,
     BACKWARD,
-    ROTATELEFT,
-    ROTATERIGHT,
+    STOP,
+    FORWARD_LEFT,
+    BACKWARD_LEFT,
+    FORWARD_RIGHT,
+    BACKWARD_RIGHT,
     UNKNOWN,
 };
 
