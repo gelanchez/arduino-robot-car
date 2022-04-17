@@ -2,8 +2,8 @@
  * @file motors.h
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for driving 4 motors through a H-bridge.
- * @version 1.0.2
- * @date 2021-10-03
+ * @version 1.0.3
+ * @date 2022-04-17
  * @copyright GPL-3.0
  */
 

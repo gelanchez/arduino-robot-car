@@ -2,8 +2,8 @@
  * @file BTprocess.cpp
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for receiving and processing the data from the serial bluetooth JSON.
- * @version 1.1.1
- * @date 2021-09-25
+ * @version 1.1.2
+ * @date 2021-04-17
  * @copyright GPL-3.0
  */
 

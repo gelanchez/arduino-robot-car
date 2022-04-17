@@ -2,8 +2,8 @@
  * @file ultrasonic.cpp
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for using the ultrasonic sensor HC-SR04 with pulseIn.
- * @version 1.0.2
- * @date 2021-10-02
+ * @version 1.0.3
+ * @date 2021-17-04
  * @copyright GPL-3.0
  */
 
