@@ -2,8 +2,8 @@
  * @file robot.cpp
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for controling the robot.
- * @version 1.1.2
- * @date 2021-10-03
+ * @version 1.1.3
+ * @date 2022-04-17
  * @copyright GPL-3.0
  */
 
@@ -54,6 +54,9 @@ void Robot::restartState()
     }
 }
 
+/**
+ * @brief Start the robot.
+ */
 void Robot::begin()
 {
     Serial.begin(Constants::serialBaud); // Can not be inside a constructor
@@ -61,6 +64,10 @@ void Robot::begin()
     m_infrared.begin();                  // Infrared initialization
 }
 
+/**
+ * @brief Move the robot based on a remote order received by Bluetooth.
+ * @param order RemoteOrder.
+ */
 void Robot::remoteControlMode(RemoteOrder order)
 {
     switch (order)
@@ -97,6 +104,9 @@ void Robot::remoteControlMode(RemoteOrder order)
     }
 }
 
+/**
+ * @brief Move the robot based on a remote order received by IR.
+ */
 void Robot::IRControlMode()
 {
     RemoteOrder order = m_infrared.decodeIR();
@@ -133,6 +143,9 @@ void Robot::IRControlMode()
     }
 }
 
+/**
+ * @brief Obstacle avoidance mode.
+ */
 void Robot::obstacleAvoidanceMode()
 {
     if ((millis() - m_lastUpdate) >= m_interval)
@@ -201,14 +214,14 @@ void Robot::obstacleAvoidanceMode()
             break;
         case RobotModeState::ROTATE:
             (m_sonarMap[0] < m_sonarMap[4]) ? m_motors.left(Constants::rotateSpeed) : m_motors.right(Constants::rotateSpeed); // Condicional operator
-            m_interval = Constants::rotate90Time;                                                                                         // Rotate 90
+            m_interval = Constants::rotate90Time;                                                                             // Rotate 90
             m_state = RobotModeState::START;
             m_sonarMap[1] = Constants::maxDistance; // Reset values
             m_sonarMap[3] = Constants::maxDistance; // Reset values
             break;
         case RobotModeState::BLOCKED:
             (m_sonarMap[0] < m_sonarMap[4]) ? m_motors.left(Constants::rotateSpeed) : m_motors.right(Constants::rotateSpeed); // Condicional operator
-            m_interval = Constants::rotate180Time;                                                                                        // Rotate 180
+            m_interval = Constants::rotate180Time;                                                                            // Rotate 180
             m_state = RobotModeState::START;
             m_sonarMap[1] = Constants::maxDistance; // Reset values
             m_sonarMap[3] = Constants::maxDistance; // Reset values
@@ -219,6 +232,9 @@ void Robot::obstacleAvoidanceMode()
     }
 }
 
+/**
+ * @brief Line tracking mode.
+ */
 void Robot::lineTrackingMode()
 {
     switch (m_state)
@@ -330,6 +346,9 @@ void Robot::lineTrackingMode()
     }
 }
 
+/**
+ * @brief Park mode.
+ */
 void Robot::parkMode()
 {
     for (size_t i{0}; i <= 1; ++i)
@@ -379,6 +398,10 @@ void Robot::parkMode()
     m_motors.stop();
 }
 
+/**
+ * @brief Custom mode. If you have reached this, you won't probably use
+ * the programming capabilites on the app but this one :).
+ */
 void Robot::customMode()
 {
     if (m_servo.read() != 0)
@@ -396,6 +419,11 @@ void Robot::customMode()
         m_motors.move(0, Constants::linearSpeed);
 }
 
+/**
+ * @brief Map an angle to a position in the m_sonarMap array.
+ * @param angle Angle of the servo.
+ * @return unsigned char Position in the array.
+ */
 unsigned char Robot::mapAngle(unsigned char angle) const
 {
     switch (angle)
@@ -415,6 +443,9 @@ unsigned char Robot::mapAngle(unsigned char angle) const
     }
 }
 
+/**
+ * @brief Move the servo for the obstable avoidance mode.
+ */
 void Robot::moveServoSequence() // Sequences: {90, 150, 90, 30} {90, 180, 90, 0}
 {
     unsigned char currentAngle = m_servo.read();
@@ -434,6 +465,14 @@ void Robot::moveServoSequence() // Sequences: {90, 150, 90, 30} {90, 180, 90, 0}
     m_previousAngle = currentAngle;
 }
 
+/**
+ * @brief Calculate a limited linear robot speed based on the object distance in front.
+ * @param distance Object distance.
+ * @param minDistance Minimum distance.
+ * @param maxDistance Maxiumn distance.
+ * @param minSpeed Minimum speed.
+ * @return unsigned char Calculated speed.
+ */
 unsigned char Robot::calculateSpeed(unsigned short distance, unsigned short minDistance, unsigned short maxDistance, unsigned char minSpeed) const
 {
     return minSpeed + static_cast<unsigned char>((distance - minDistance) * (255 - minSpeed) / (maxDistance - minDistance));
