@@ -1,14 +1,14 @@
 /**
- * @file BTprocess.h
+ * @file bluetooth.h
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for receiving and processing the data from the serial bluetooth JSON.
- * @version 1.1.1
- * @date 2021-09-25
+ * @version 1.2.0
+ * @date 2022-04-18
  * @copyright GPL-3.0
  */
 
-#ifndef BTPROCESS
-#define BTPROCESS
+#ifndef BLUETOOTH
+#define BLUETOOTH
 
 #include <ArduinoJson.h>
 #include "constants.h"
@@ -19,8 +19,8 @@ private:
     String m_data;
     StaticJsonDocument<150> m_elegooDoc;
     RobotMode m_mode;
-    unsigned char m_parameter1;
-    unsigned char m_parameter2;
+    RemoteOrder m_order;
+    unsigned short m_speed;
 
 public:
     Bluetooth();
@@ -28,8 +28,8 @@ public:
     void decodeElegooJSON();
     String getData() const;
     RobotMode getMode() const;
-    unsigned char getParameter1() const;
-    unsigned char getParameter2() const;
+    RemoteOrder getOrder() const;
+    unsigned short getSpeed() const;
     void receiveData();
 };
 

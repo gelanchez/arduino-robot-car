@@ -2,8 +2,8 @@
  * @file robot.h
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for controling the robot.
- * @version 1.1.1
- * @date 2021-09-25
+ * @version 1.2.0
+ * @date 2021-04-18
  * @copyright GPL-3.0
  */
 
@@ -11,6 +11,7 @@
 #define ROBOT_H
 
 #include <Arduino.h>
+#include "constants.h"
 #include "infrared.h"
 #include "linetracking.h"
 #include "motors.h"
@@ -42,9 +43,8 @@ public:
     ~Robot();
     void restartState();
     void begin();
-
-    void remoteControlMode(RemoteOrder order);
-    void IRControlMode();
+    void remoteControlMode(RemoteOrder order, unsigned char linearSpeed = Constants::linearSpeed, unsigned char rotateSpeed = Constants::rotateSpeed);
+    void IRControlMode(unsigned char linearSpeed = Constants::linearSpeed, unsigned char rotateSpeed = Constants::rotateSpeed);
     void obstacleAvoidanceMode();
     void lineTrackingMode();
     void parkMode();

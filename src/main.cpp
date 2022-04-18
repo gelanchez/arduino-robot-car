@@ -2,8 +2,8 @@
  * @file main.ino
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Main program.
- * @version 1.1.2
- * @date 2021-09-26
+ * @version 1.1.3
+ * @date 2022-04-18
  * @copyright GPL-3.0
  */
 
@@ -39,7 +39,7 @@ void loop()
     {
     case RobotMode::REMOTECONTROL:
         g_mode = RobotMode::REMOTECONTROL;
-        g_robot.remoteControlMode(static_cast<RemoteOrder>(g_bluetooth.getParameter1()));
+        g_robot.remoteControlMode(g_bluetooth.getOrder(), g_bluetooth.getSpeed(), g_bluetooth.getSpeed());
         break;
 
     case RobotMode::IRCONTROL:

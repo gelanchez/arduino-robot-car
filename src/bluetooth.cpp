@@ -1,9 +1,9 @@
 /**
- * @file BTprocess.cpp
+ * @file bluetooth.cpp
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for receiving and processing the data from the serial bluetooth JSON.
- * @version 1.1.2
- * @date 2021-04-17
+ * @version 1.2.0
+ * @date 2021-04-18
  * @copyright GPL-3.0
  */
 
@@ -16,7 +16,7 @@
  */
 Bluetooth::Bluetooth()
     : m_data{""}, m_mode{RobotMode::REMOTECONTROL}, // Default robot mode
-      m_parameter1{0}, m_parameter2{0}
+      m_order{RemoteOrder::STOP}, m_speed{0}
 {
 }
 
@@ -47,37 +47,38 @@ void Bluetooth::decodeElegooJSON()
         case 2: // remoteControlMode
             m_mode = RobotMode::REMOTECONTROL;
             D1 = m_elegooDoc["D1"];
+            m_speed = m_elegooDoc["D2"];
             switch (D1)
             {
             case 1:
-                m_parameter1 = static_cast<unsigned char>(RemoteOrder::LEFT);
+                m_order = RemoteOrder::LEFT;
                 return;
             case 2:
-                m_parameter1 = static_cast<unsigned char>(RemoteOrder::RIGHT);
+                m_order = RemoteOrder::RIGHT;
                 return;
             case 3:
-                m_parameter1 = static_cast<unsigned char>(RemoteOrder::FORWARD);
+                m_order = RemoteOrder::FORWARD;
                 return;
             case 4:
-                m_parameter1 = static_cast<unsigned char>(RemoteOrder::BACKWARD);
+                m_order = RemoteOrder::BACKWARD;
                 return;
             case 5:
-                m_parameter1 = static_cast<unsigned char>(RemoteOrder::STOP);
+                m_order = RemoteOrder::STOP;
                 return;
             case 6:
-                m_parameter1 = static_cast<unsigned char>(RemoteOrder::FORWARD_LEFT);
+                m_order = RemoteOrder::FORWARD_LEFT;
                 return;
             case 7:
-                m_parameter1 = static_cast<unsigned char>(RemoteOrder::BACKWARD_LEFT);
+                m_order = RemoteOrder::BACKWARD_LEFT;
                 return;
             case 8:
-                m_parameter1 = static_cast<unsigned char>(RemoteOrder::FORWARD_RIGHT);
+                m_order = RemoteOrder::FORWARD_RIGHT;
                 return;
             case 9:
-                m_parameter1 = static_cast<unsigned char>(RemoteOrder::BACKWARD_RIGHT);
+                m_order = RemoteOrder::BACKWARD_RIGHT;
                 return;
             default:
-                m_parameter1 = static_cast<unsigned char>(RemoteOrder::UNKNOWN);
+                m_order = RemoteOrder::UNKNOWN;
                 return;
             }
         case 3: // lineTrackingMode or obstacleAvoidanceMode
@@ -130,21 +131,21 @@ RobotMode Bluetooth::getMode() const
 }
 
 /**
- * @brief Return first parameter of bluetooth communication.
- * @return unsigned char Parameter 1.
+ * @brief Return remote order.
+ * @return RemoteOrder.
  */
-unsigned char Bluetooth::getParameter1() const
+RemoteOrder Bluetooth::getOrder() const
 {
-    return m_parameter1;
+    return m_order;
 }
 
 /**
- * @brief Return second parameter of bluetooth communication.
- * @return unsigned char Parameter 2.
+ * @brief Return requested speed.
+ * @return int Requested speed.
  */
-unsigned char Bluetooth::getParameter2() const
+unsigned short Bluetooth::getSpeed() const
 {
-    return m_parameter2;
+    return m_speed;
 }
 
 /**

@@ -2,8 +2,8 @@
  * @file robot.cpp
  * @author José Ángel Sánchez (https://github.com/gelanchez)
  * @brief Library for controling the robot.
- * @version 1.1.3
- * @date 2022-04-17
+ * @version 1.2.0
+ * @date 2021-04-18
  * @copyright GPL-3.0
  */
 
@@ -67,37 +67,39 @@ void Robot::begin()
 /**
  * @brief Move the robot based on a remote order received by Bluetooth.
  * @param order RemoteOrder.
+ * @param linearSpeed
+ * @param rotateSpeed
  */
-void Robot::remoteControlMode(RemoteOrder order)
+void Robot::remoteControlMode(RemoteOrder order, unsigned char linearSpeed, unsigned char rotateSpeed)
 {
     switch (order)
     {
     case RemoteOrder::LEFT:
-        m_motors.left(Constants::rotateSpeed);
+        m_motors.left(rotateSpeed);
         return;
     case RemoteOrder::RIGHT:
-        m_motors.right(Constants::rotateSpeed);
+        m_motors.right(rotateSpeed);
         return;
     case RemoteOrder::FORWARD:
-        m_motors.forward(Constants::linearSpeed);
+        m_motors.forward(linearSpeed);
         return;
     case RemoteOrder::BACKWARD:
-        m_motors.backward(Constants::linearSpeed);
+        m_motors.backward(linearSpeed);
         return;
     case RemoteOrder::STOP:
         m_motors.stop();
         return;
     case RemoteOrder::FORWARD_LEFT:
-        m_motors.forwardLeft(Constants::linearSpeed);
+        m_motors.forwardLeft(linearSpeed);
         return;
     case RemoteOrder::BACKWARD_LEFT:
-        m_motors.backwardLeft(Constants::linearSpeed);
+        m_motors.backwardLeft(linearSpeed);
         return;
     case RemoteOrder::FORWARD_RIGHT:
-        m_motors.forwardRight(Constants::linearSpeed);
+        m_motors.forwardRight(linearSpeed);
         return;
     case RemoteOrder::BACKWARD_RIGHT:
-        m_motors.backwardRight(Constants::linearSpeed);
+        m_motors.backwardRight(linearSpeed);
         return;
     default:
         return;
@@ -106,8 +108,10 @@ void Robot::remoteControlMode(RemoteOrder order)
 
 /**
  * @brief Move the robot based on a remote order received by IR.
+ * @param linearSpeed
+ * @param rotateSpeed
  */
-void Robot::IRControlMode()
+void Robot::IRControlMode(unsigned char linearSpeed, unsigned char rotateSpeed)
 {
     Key key = m_infrared.decodeIR();
     switch (key)
@@ -117,19 +121,19 @@ void Robot::IRControlMode()
         m_lastUpdate = millis();
         break;
     case Key::keyUp:
-        m_motors.forward(Constants::linearSpeed);
+        m_motors.forward(linearSpeed);
         m_lastUpdate = millis();
         break;
     case Key::keyDown:
-        m_motors.backward(Constants::linearSpeed);
+        m_motors.backward(linearSpeed);
         m_lastUpdate = millis();
         break;
     case Key::keyLeft:
-        m_motors.left(Constants::rotateSpeed);
+        m_motors.left(rotateSpeed);
         m_lastUpdate = millis();
         break;
     case Key::keyRight:
-        m_motors.right(Constants::rotateSpeed);
+        m_motors.right(rotateSpeed);
         m_lastUpdate = millis();
         break;
     default:
