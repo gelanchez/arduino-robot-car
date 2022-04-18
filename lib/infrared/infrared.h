@@ -1,9 +1,9 @@
 /**
  * @file infrared.h
  * @author José Ángel Sánchez (https://github.com/gelanchez)
- * @brief Library for receiving data from the IR sensor.
- * @version 1.1.0
- * @date 2021-05-03
+ * @brief Library for receiving and processing data from the IR sensor.
+ * @version 1.2.0
+ * @date 2022-04-18
  * @copyright GPL-3.0
  */
 
@@ -16,18 +16,42 @@
 #define ARDUINO 108012 // Arduino IDE version used when writing the program
 #endif
 
-#include "constants.h"
+/**
+ * @brief Keys.
+ */
+enum class Key
+{
+    keyOk,
+    keyUp,
+    keyDown,
+    keyLeft,
+    keyRight,
+    key0,
+    key1,
+    key2,
+    key3,
+    key4,
+    key5,
+    key6,
+    key7,
+    key8,
+    key9,
+    keyAsterisk,
+    keySharp,
+    unkwown
+};
 
 class Infrared
 {
 private:
+    unsigned char m_IRPin;       // IR receiver pin
     unsigned long m_previousKey; // Store previous order for repeating key
 
 public:
-    Infrared();
+    Infrared(unsigned char IRPin);
     ~Infrared();
     void begin();
-    RemoteOrder decodeIR();
+    Key decodeIR();
 };
 
 #endif

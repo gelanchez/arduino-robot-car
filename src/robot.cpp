@@ -25,7 +25,7 @@ Robot::Robot()
       m_ultrasonic{Pins::triggerPin, Pins::echoPin},
       m_lineTracking{Pins::ltLeftPin, Pins::ltMidPin, Pins::ltRightPin},
       m_sonarMap{Constants::maxDistance, Constants::maxDistance, Constants::maxDistance, Constants::maxDistance, Constants::maxDistance},
-      m_state{RobotModeState::START}, m_previousAngle{90}, m_interval{Constants::updateInterval}, m_infrared{}
+      m_state{RobotModeState::START}, m_previousAngle{90}, m_interval{Constants::updateInterval}, m_infrared{Pins::IRPin}
 {
     m_lastUpdate = millis();
 }
@@ -109,26 +109,26 @@ void Robot::remoteControlMode(RemoteOrder order)
  */
 void Robot::IRControlMode()
 {
-    RemoteOrder order = m_infrared.decodeIR();
-    switch (order) // Equal to remoteControlMode but updating the timer
+    Key key = m_infrared.decodeIR();
+    switch (key)
     {
-    case RemoteOrder::STOP:
+    case Key::keyOk:
         m_motors.stop();
         m_lastUpdate = millis();
         break;
-    case RemoteOrder::FORWARD:
+    case Key::keyUp:
         m_motors.forward(Constants::linearSpeed);
         m_lastUpdate = millis();
         break;
-    case RemoteOrder::BACKWARD:
+    case Key::keyDown:
         m_motors.backward(Constants::linearSpeed);
         m_lastUpdate = millis();
         break;
-    case RemoteOrder::LEFT:
+    case Key::keyLeft:
         m_motors.left(Constants::rotateSpeed);
         m_lastUpdate = millis();
         break;
-    case RemoteOrder::RIGHT:
+    case Key::keyRight:
         m_motors.right(Constants::rotateSpeed);
         m_lastUpdate = millis();
         break;

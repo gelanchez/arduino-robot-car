@@ -82,23 +82,6 @@ namespace Constants
     constexpr unsigned short maxDistanceLineTracking{100}; // Maximun distance to meassure in cm used in the linetraking mode
 
     // Infrared
-    constexpr unsigned long keyOk{3208707840};
-    constexpr unsigned long keyUp{3108437760};
-    constexpr unsigned long keyDown{3927310080};
-    constexpr unsigned long keyLeft{3141861120};
-    constexpr unsigned long keyRight{3158572800};
-    constexpr unsigned long key0{2907897600};       // Unused
-    constexpr unsigned long key1{3910598400};       // Unused
-    constexpr unsigned long key2{3860463360};       // Unused
-    constexpr unsigned long key3{4061003520};       // Unused
-    constexpr unsigned long key4{4077715200};       // Unused
-    constexpr unsigned long key5{3877175040};       // Unused
-    constexpr unsigned long key6{2707357440};       // Unused
-    constexpr unsigned long key7{4144561920};       // Unused
-    constexpr unsigned long key8{3810328320};       // Unused
-    constexpr unsigned long key9{2774204160};       // Unused
-    constexpr unsigned long keyAst{3175284480};     // Unused
-    constexpr unsigned long keySharp{3041591040};   // Unused
     constexpr unsigned short IRMovingInterval{200}; // Default time for moving in IR
 }
 
@@ -116,7 +99,7 @@ enum class RobotMode
 };
 
 /**
- * @brief Orders for the RemoteControl and IRControl modes.
+ * @brief Orders for the RemoteControl.
  */
 enum class RemoteOrder
 {
