@@ -16,7 +16,7 @@
  */
 Bluetooth::Bluetooth()
     : m_data{""}, m_mode{RobotMode::REMOTECONTROL}, // Default robot mode
-      m_order{RemoteOrder::STOP}, m_speed{0}
+      m_order{Order::STOP}, m_speed{0}
 {
 }
 
@@ -51,34 +51,34 @@ void Bluetooth::decodeElegooJSON()
             switch (D1)
             {
             case 1:
-                m_order = RemoteOrder::LEFT;
+                m_order = Order::LEFT;
                 return;
             case 2:
-                m_order = RemoteOrder::RIGHT;
+                m_order = Order::RIGHT;
                 return;
             case 3:
-                m_order = RemoteOrder::FORWARD;
+                m_order = Order::FORWARD;
                 return;
             case 4:
-                m_order = RemoteOrder::BACKWARD;
+                m_order = Order::BACKWARD;
                 return;
             case 5:
-                m_order = RemoteOrder::STOP;
+                m_order = Order::STOP;
                 return;
             case 6:
-                m_order = RemoteOrder::FORWARD_LEFT;
+                m_order = Order::FORWARD_LEFT;
                 return;
             case 7:
-                m_order = RemoteOrder::BACKWARD_LEFT;
+                m_order = Order::BACKWARD_LEFT;
                 return;
             case 8:
-                m_order = RemoteOrder::FORWARD_RIGHT;
+                m_order = Order::FORWARD_RIGHT;
                 return;
             case 9:
-                m_order = RemoteOrder::BACKWARD_RIGHT;
+                m_order = Order::BACKWARD_RIGHT;
                 return;
             default:
-                m_order = RemoteOrder::UNKNOWN;
+                m_order = Order::UNKNOWN;
                 return;
             }
         case 3: // lineTrackingMode or obstacleAvoidanceMode
@@ -132,9 +132,9 @@ RobotMode Bluetooth::getMode() const
 
 /**
  * @brief Return remote order.
- * @return RemoteOrder.
+ * @return Order.
  */
-RemoteOrder Bluetooth::getOrder() const
+Order Bluetooth::getOrder() const
 {
     return m_order;
 }

@@ -43,7 +43,7 @@ public:
     ~Robot();
     void restartState();
     void begin();
-    void remoteControlMode(RemoteOrder order, unsigned char linearSpeed = Constants::linearSpeed, unsigned char rotateSpeed = Constants::rotateSpeed);
+    void remoteControlMode(Order order, unsigned char linearSpeed = Constants::linearSpeed, unsigned char rotateSpeed = Constants::rotateSpeed);
     void IRControlMode(unsigned char linearSpeed = Constants::linearSpeed, unsigned char rotateSpeed = Constants::rotateSpeed);
     void obstacleAvoidanceMode();
     void lineTrackingMode();

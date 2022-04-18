@@ -66,39 +66,39 @@ void Robot::begin()
 
 /**
  * @brief Move the robot based on a remote order received by Bluetooth.
- * @param order RemoteOrder.
+ * @param order Order.
  * @param linearSpeed
  * @param rotateSpeed
  */
-void Robot::remoteControlMode(RemoteOrder order, unsigned char linearSpeed, unsigned char rotateSpeed)
+void Robot::remoteControlMode(Order order, unsigned char linearSpeed, unsigned char rotateSpeed)
 {
     switch (order)
     {
-    case RemoteOrder::LEFT:
+    case Order::LEFT:
         m_motors.left(rotateSpeed);
         return;
-    case RemoteOrder::RIGHT:
+    case Order::RIGHT:
         m_motors.right(rotateSpeed);
         return;
-    case RemoteOrder::FORWARD:
+    case Order::FORWARD:
         m_motors.forward(linearSpeed);
         return;
-    case RemoteOrder::BACKWARD:
+    case Order::BACKWARD:
         m_motors.backward(linearSpeed);
         return;
-    case RemoteOrder::STOP:
+    case Order::STOP:
         m_motors.stop();
         return;
-    case RemoteOrder::FORWARD_LEFT:
+    case Order::FORWARD_LEFT:
         m_motors.forwardLeft(linearSpeed);
         return;
-    case RemoteOrder::BACKWARD_LEFT:
+    case Order::BACKWARD_LEFT:
         m_motors.backwardLeft(linearSpeed);
         return;
-    case RemoteOrder::FORWARD_RIGHT:
+    case Order::FORWARD_RIGHT:
         m_motors.forwardRight(linearSpeed);
         return;
-    case RemoteOrder::BACKWARD_RIGHT:
+    case Order::BACKWARD_RIGHT:
         m_motors.backwardRight(linearSpeed);
         return;
     default:

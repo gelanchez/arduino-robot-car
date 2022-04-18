@@ -44,7 +44,7 @@ namespace Constants
 {
     // Serial
     constexpr long serialBaud{9600}; // bps for Serial.begin
-    constexpr long serialDelay{500}; // Initial serial delay (ms)
+    constexpr long serialDelay{300}; // Initial serial delay (ms)
 
     // Motors min speed (measured)
     constexpr unsigned char crankSpeed{140}; // Around 120 @ full battery
@@ -82,7 +82,7 @@ namespace Constants
     constexpr unsigned short maxDistanceLineTracking{100}; // Maximun distance to meassure in cm used in the linetraking mode
 
     // Infrared
-    constexpr unsigned short IRMovingInterval{200}; // Default time for moving in IR
+    constexpr unsigned short IRMovingInterval{100}; // Default time for moving in IR
 }
 
 /**
@@ -101,7 +101,7 @@ enum class RobotMode
 /**
  * @brief Orders for the RemoteControl.
  */
-enum class RemoteOrder
+enum class Order
 {
     LEFT = 1,
     RIGHT,
