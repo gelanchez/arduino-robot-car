@@ -7,12 +7,12 @@
  * @copyright GPL-3.0
  */
 
-#include "BTprocess.h"
+#include "bluetooth.h"
 #include "constants.h"
 #include "robot.h"
 
 static Robot g_robot = Robot();                     // Initialization of the Robot object
-static BTprocess g_BTprocess = BTprocess();         // Initialization of the BT processor object
+static Bluetooth g_bluetooth = Bluetooth();         // Initialization of the bluetooth object
 static RobotMode g_mode = RobotMode::REMOTECONTROL; // Default robot mode
 
 /**
@@ -29,17 +29,17 @@ void setup()
  */
 void loop()
 {
-    g_BTprocess.receiveBTData();
-    if (g_BTprocess.getBTData() != "")
-        g_BTprocess.decodeElegooJSON();
-    if (g_mode != g_BTprocess.getMode())
+    g_bluetooth.receiveData();
+    if (g_bluetooth.getData() != "")
+        g_bluetooth.decodeElegooJSON();
+    if (g_mode != g_bluetooth.getMode())
         g_robot.restartState();
 
-    switch (g_BTprocess.getMode())
+    switch (g_bluetooth.getMode())
     {
     case RobotMode::REMOTECONTROL:
         g_mode = RobotMode::REMOTECONTROL;
-        g_robot.remoteControlMode(static_cast<RemoteOrder>(g_BTprocess.getParameter1()));
+        g_robot.remoteControlMode(static_cast<RemoteOrder>(g_bluetooth.getParameter1()));
         break;
 
     case RobotMode::IRCONTROL:

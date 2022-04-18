@@ -8,22 +8,22 @@
  */
 
 #include <ArduinoJson.h>
-#include "BTprocess.h"
+#include "bluetooth.h"
 #include "constants.h"
 
 /**
- * @brief Construct a new BTprocess::BTprocess object.
+ * @brief Construct a new Bluetooth::Bluetooth object.
  */
-BTprocess::BTprocess()
-    : m_dataBT{""}, m_mode{RobotMode::REMOTECONTROL}, // Default robot mode
+Bluetooth::Bluetooth()
+    : m_data{""}, m_mode{RobotMode::REMOTECONTROL}, // Default robot mode
       m_parameter1{0}, m_parameter2{0}
 {
 }
 
 /**
- * @brief Destroy the BTprocess::BTprocess object.
+ * @brief Destroy the Bluetooth::Bluetooth object.
  */
-BTprocess::~BTprocess()
+Bluetooth::~Bluetooth()
 {
 }
 
@@ -35,9 +35,9 @@ BTprocess::~BTprocess()
  * {"N":3,"D1":2} obstacle avoidance.
  * {"N":2,"D1":1..9} joystick.
  */
-void BTprocess::decodeElegooJSON()
+void Bluetooth::decodeElegooJSON()
 {
-    DeserializationError error = deserializeJson(m_elegooDoc, m_dataBT);
+    DeserializationError error = deserializeJson(m_elegooDoc, m_data);
     if (!error)
     {
         unsigned char N = m_elegooDoc["N"];
@@ -115,16 +115,16 @@ void BTprocess::decodeElegooJSON()
  * @brief Return latest bluetooth data.
  * @return String bluetooth data.
  */
-String BTprocess::getBTData() const
+String Bluetooth::getData() const
 {
-    return m_dataBT;
+    return m_data;
 }
 
 /**
  * @brief Return robot mode.
  * @return RobotMode.
  */
-RobotMode BTprocess::getMode() const
+RobotMode Bluetooth::getMode() const
 {
     return m_mode;
 }
@@ -133,7 +133,7 @@ RobotMode BTprocess::getMode() const
  * @brief Return first parameter of bluetooth communication.
  * @return unsigned char Parameter 1.
  */
-unsigned char BTprocess::getParameter1() const
+unsigned char Bluetooth::getParameter1() const
 {
     return m_parameter1;
 }
@@ -142,7 +142,7 @@ unsigned char BTprocess::getParameter1() const
  * @brief Return second parameter of bluetooth communication.
  * @return unsigned char Parameter 2.
  */
-unsigned char BTprocess::getParameter2() const
+unsigned char Bluetooth::getParameter2() const
 {
     return m_parameter2;
 }
@@ -150,16 +150,16 @@ unsigned char BTprocess::getParameter2() const
 /**
  * @brief Receive bluetooth data from Serial.
  */
-void BTprocess::receiveBTData()
+void Bluetooth::receiveData()
 {
-    m_dataBT = "";
-    while ((Serial.available() > 0) && (m_dataBT.endsWith("}") == false))
+    m_data = "";
+    while ((Serial.available() > 0) && (m_data.endsWith("}") == false))
     {
-        m_dataBT += static_cast<char>(Serial.read());
+        m_data += static_cast<char>(Serial.read());
         delay(3);
     }
-    if ((m_dataBT.length() > 0) && m_dataBT.endsWith("}"))
+    if ((m_data.length() > 0) && m_data.endsWith("}"))
         return;
     else
-        m_dataBT = "";
+        m_data = "";
 }
