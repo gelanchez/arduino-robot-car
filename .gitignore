@@ -1,8 +1,7 @@
-# KDE
-.directory
-
 # Personal files
 TODO.md
+doc/
+.directory
 
 # VSCode configuration files
 .vscode/
